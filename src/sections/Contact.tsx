@@ -1,0 +1,61 @@
+import ContactForm from '@/app/components/ContactForm';
+import Map from '@/app/components/Map';
+
+function Contact() {
+
+    const comname = process.env.COMNAME;
+    const name = process.env.NAME;
+    const address = process.env.ADDRESS;
+    const city = process.env.CITY;
+    const country = process.env.COUNTRY;
+    const phone = process.env.PHONE;
+    const email = process.env.EMAIL;
+
+    return (
+        <section className='w-[100vw] h-fit px-4 md:px-24 p-6 flex flex-col items-center justify-center bg-[#1C2331]' id='contact'>
+            <h3 className='text-[50px] md:text-[70px] text-[#FFA500] font-semibold mt-16 mb-4'>CONTACT</h3>
+            <div className='w-full flex flex-col lg:flex-row text-white'>
+
+                <div className='w-full lg:w-2/3 h-fit m-2 border-4 border-[#FFA500]'>
+                    <Map />
+                </div>
+
+                <div className='w-fit min-w-[290px] h-2/3 md:m-2 p-2 text-justify flex flex-col wrap'>
+
+                    <div className='m-2'>
+                        <p className='text-[25px] text-[#FFA500]'>
+                            You can find us at:
+                        </p>
+                        <div className='p-1'>
+                            <p>{comname}</p>
+                            <p>{address}</p>
+                            <p>{city}</p>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div className='m-2'>
+                        <p className='text-[25px] text-[#FFA500]'>
+                            Opening Hours:
+                        </p>
+                        <ul className='p-1'>
+                            <li>Mo: Ruhetag</li>
+                            <li>Di-Fr: 11:00-21:00</li>
+                            <li>Sa-So/Feiertag: 10:00-23:00</li>
+                        </ul>
+                        <p className='p-1'><strong>EMAIL:</strong> {email}</p>
+                        <p className='p-1'><strong>TEL.:</strong> {phone}</p>
+                    </div>
+
+                </div>
+
+                <div className='w-full lg:w-2/3 md:m-2 flex flex-col my-4'>
+                    <ContactForm />
+                </div>
+            </div>
+        </section>
+    )
+};
+
+export default Contact;
