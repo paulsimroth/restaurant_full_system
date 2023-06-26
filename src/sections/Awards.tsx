@@ -1,6 +1,7 @@
-import SubHeading from "@/app/components/SubHeading";
+
 import Image from "next/image";
-import { awards } from '../app/constants';
+import { awards } from '../constants';
+import SubHeading from "~/components/SubHeading";
 
 function AwardCard({ award: { imgUrl, title, subtitle }, key }: any) {
   return (

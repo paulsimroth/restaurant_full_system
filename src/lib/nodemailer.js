@@ -1,4 +1,5 @@
-import nodemailer from "nodemailer";
+//@ts-ignore
+import nodemailer from 'nodemailer';
 
 // GMAIL VERSION
 const email = process.env.CONTACTFORM_EMAIL;

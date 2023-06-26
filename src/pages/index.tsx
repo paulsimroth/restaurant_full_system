@@ -22,18 +22,18 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className='w-full overflow-hidden'>
-      <Navbar />
-      <div className="flex min-h-screen flex-col items-center justify-center pt-24 px-24">
-        <Header />
-        <About />
-        <SpecialMenu />
-        <Chef />
-        <Intro />
-        <Awards />
-        <Contact />
-      </div>
-      <Footer />
-    </main>
+        <Navbar />
+        <div className="flex min-h-screen flex-col items-center justify-center pt-24 px-24">
+          <Header />
+          <About />
+          <SpecialMenu />
+          <Chef />
+          <Intro />
+          <Awards />
+          <Contact />
+        </div>
+        <Footer />
+      </main>
     </>
   );
 }

@@ -1,6 +1,5 @@
-import SubHeading from '@/app/components/SubHeading'
 import Image from 'next/image'
-import React from 'react'
+import SubHeading from '~/components/SubHeading'
 
 function Chef() {
   return (

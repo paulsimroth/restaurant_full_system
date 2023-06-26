@@ -1,5 +1,5 @@
-import SubHeading from "@/app/components/SubHeading";
 import Image from "next/image";
+import SubHeading from "~/components/SubHeading";
 
 function Hero() {
   return (

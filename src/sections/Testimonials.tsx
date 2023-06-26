@@ -1,5 +1,5 @@
-import Testimonial from "@/app/components/Testimonial";
-import { testimonials } from '../app/constants';
+import Testimonial from '~/components/Testimonial';
+import { testimonials } from '../constants';
 
 function Testimonials() {
   return (

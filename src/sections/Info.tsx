@@ -1,5 +1,5 @@
-import Product from '@/app/components/Product';
 import { Inter } from 'next/font/google';
+import Product from '~/components/Product';
 const inter = Inter({ subsets: ['latin'] });
 
 function Info() {

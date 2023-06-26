@@ -1,7 +1,7 @@
-import MenuItem from "@/app/components/MenuItem";
-import SubHeading from "@/app/components/SubHeading"
 import Image from "next/image";
-import { cocktails, wines } from '../app/constants';
+import { cocktails, wines } from '../constants';
+import MenuItem from "~/components/MenuItem";
+import SubHeading from "~/components/SubHeading";
 
 function SpecialMenu() {
   return (
