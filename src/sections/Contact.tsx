@@ -4,13 +4,13 @@ import Map from "~/components/Map";
 
 function Contact() {
 
-    const comname = process.env.COMNAME;
-    const name = process.env.NAME;
-    const address = process.env.ADDRESS;
-    const city = process.env.CITY;
-    const country = process.env.COUNTRY;
-    const phone = process.env.PHONE;
-    const email = process.env.EMAIL;
+    const comname = process.env.NEXT_PUBLIC_COMNAME;
+    const name = process.env.NEXT_PUBLIC_NAME;
+    const address = process.env.NEXT_PUBLIC_ADDRESS;
+    const city = process.env.NEXT_PUBLIC_CITY;
+    const country = process.env.NEXT_PUBLIC_COUNTRY;
+    const phone = process.env.NEXT_PUBLIC_PHONE;
+    const email = process.env.NEXT_PUBLIC_EMAIL;
 
     return (
         <section className='w-[100vw] h-fit px-4 md:px-24 p-6 flex flex-col items-center justify-center bg-[#1C2331]' id='contact'>

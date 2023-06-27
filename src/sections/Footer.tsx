@@ -3,7 +3,7 @@ import Link from "next/link";
 
 function Footer() {
 
-  const comname = process.env.COMNAME;
+  const comname = process.env.NEXT_PUBLIC_COMNAME;
 
   return (
     <footer className='z-20 bg-[#1C2331] text-[#FFA500] left-0 bottom-0 flex flex-col items-center border-t-4 border-[#FFA500] pb-8 pt-8'>
