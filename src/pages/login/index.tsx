@@ -18,14 +18,14 @@ function page() {
     return (
         <main>
             <Navbar />
-            <div className="bg-[#1C2331] text-[#FFA500] mt-12 flex min-h-screen flex-col items-center justify-between p-24">
-                LOGIN
-                <form className='mt-8 space-y-6'>
+            <div className="bg-[#1C2331] text-[#FFA500] mt-12 flex min-h-screen flex-col items-center justify-center pt-24">
+                <h1>LOGIN</h1>
+                <form className='mt-8 space-y-6 flex flex-col items-center justify-center'>
                     <input type="hidden" name="remember" defaultValue="true" />
-                    <div>
+                    <div className='w-2/3 h-1/2 text-[25px]'>
                         <p className='pb-1 text-sm text-red-600'>{/* {error && 'Invalid Login credentials'} */}</p>
-                        <div>
-                            <label htmlFor="email-address">
+                        <div className='my-2 mx-1'>
+                            <label htmlFor="email-address" >
                                 Email Address
                             </label>
                             <input
@@ -34,11 +34,11 @@ function page() {
                                 autoComplete='email'
                                 value={input.email}
                                 required
-                                placeholder='email'
+                                placeholder='Email'
                                 onChange={e => handleChange}
                             />
                         </div>
-                        <div>
+                        <div className='my-2 mx-1'>
                             <label htmlFor="email-address">
                                 Password
                             </label>
@@ -49,11 +49,12 @@ function page() {
                                 autoComplete='current-password'
                                 value={input.password}
                                 required
-                                placeholder='password'
+                                placeholder='Password'
                                 onChange={e => handleChange}
                             />
                         </div>
                         <button
+                        className="my-2 m-1 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"
                             type='submit'
                             onClick={(e) => {
                                 e.preventDefault()
