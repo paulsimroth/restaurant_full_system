@@ -45,8 +45,8 @@ function Contact() {
                             <li>Di-Fr: 11:00-21:00</li>
                             <li>Sa-So/Feiertag: 10:00-23:00</li>
                         </ul>
-                        <p className='p-1'><strong>EMAIL:</strong> {email}</p>
-                        <p className='p-1'><strong>TEL.:</strong> {phone}</p>
+                        <p className='p-1'><strong>EMAIL:</strong>{email}</p>
+                        <p className='p-1'><strong>TEL.:</strong>{phone}</p>
                     </div>
 
                 </div>

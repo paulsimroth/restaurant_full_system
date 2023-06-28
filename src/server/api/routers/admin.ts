@@ -1,5 +1,5 @@
 import { SignJWT } from "jose";
-import { createTRPCRouter, publicProcedure } from "../trpc";
+import { adminProcedure, createTRPCRouter, publicProcedure } from "../trpc";
 import { z } from "zod";
 import { nanoid } from "nanoid";
 import { getJwtSecretKey } from "~/lib/auth";
@@ -37,5 +37,9 @@ export const adminRouter = createTRPCRouter({
             code: "UNAUTHORIZED",
             message: "INVALID LOGIN CREDENTIALS"
         })
+    }),
+
+    sensitive: adminProcedure.mutation(() => {
+        return 'sensitive'
     }),
 });

@@ -6,10 +6,11 @@
  * TL;DR - This is where all the tRPC server stuff is created and plugged in. The pieces you will
  * need to use are documented accordingly near the end.
  */
-import { initTRPC } from "@trpc/server";
+import { TRPCError, initTRPC } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import superjson from "superjson";
 import { ZodError } from "zod";
+import { verifyAuth } from "~/lib/auth";
 import { prisma } from "~/server/db";
 
 /**
@@ -95,3 +96,28 @@ export const createTRPCRouter = t.router;
  * are logged in.
  */
 export const publicProcedure = t.procedure;
+
+
+/* 
+  ONLY ADMIN IS ALLOWED TO CHANGE SOMETHING IN bashboard
+*/
+
+const isAdmin = t.middleware(async ({ctx, next}) => {
+  const {req} = ctx
+  const token = req.cookies['user-token']
+
+  if(!token) {
+    throw new TRPCError({code: 'UNAUTHORIZED', message: 'MISSING ADMIN TOKEN'})
+  }
+
+  const verifiedToken = await verifyAuth(token)
+
+  if(!verifiedToken) {
+    throw new TRPCError({code: 'UNAUTHORIZED', message: 'INVALID ADMIN TOKEN'})
+  }
+
+  //user is authenticated
+  return next();
+});
+
+export const adminProcedure = t.procedure.use(isAdmin);
