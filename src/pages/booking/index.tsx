@@ -1,9 +1,20 @@
+'use client'
 import Head from "next/head";
+import { useState } from "react";
+import { type DateTime } from '@types';
 import Calendar from "~/components/Calendar";
 import Footer from "~/sections/Footer";
 import Navbar from "~/sections/Navbar";
+import Menu from "~/components/Menu";
+import Spinner from "~/components/Spinner";
 
 function page() {
+
+  const [date, setDate] = useState<DateTime>({
+    justDate: null,
+    dateTime: null,
+  });
+
   return (
     <>
       <Head>
@@ -13,9 +24,17 @@ function page() {
       </Head>
       <main>
         <Navbar />
-        <div className="bg-[#1C2331] text-[#FFA500] mt-12 flex min-h-screen flex-col items-center justify-between p-24">
-          BOOKING
-          <Calendar />
+        <div className="h-[40vh] bg-[#1C2331] text-[#FFA500] mt-12 flex min-h-screen flex-col items-center justify-center p-24">
+          <h1 className='m-2 text-[50px] md:text-[70px] text-[#FFA500] font-semibold'>
+            BOOK YOUR TABLE
+          </h1>
+          {!date.dateTime && <Calendar setDate={setDate} date={date} />}
+          {date.dateTime && true 
+          ? <Menu />
+          :
+          <div className="flex h-screen items-center justify-center">
+            <Spinner />
+          </div>}
         </div>
         <Footer />
       </main>

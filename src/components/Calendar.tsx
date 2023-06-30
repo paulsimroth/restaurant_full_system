@@ -1,20 +1,27 @@
 'use client'
-import React, { useState } from 'react';
+import React, { Dispatch, FC, SetStateAction, useState } from 'react';
 import ReactCalendar from 'react-calendar';
 import { add, format } from "date-fns";
 import { closingTime, seatInterval, openingTime } from '../constants/config';
+import { type DateTime } from '@types';
 
-interface DateType {
+
+interface indexProps {
+  date: DateTime
+  setDate: Dispatch<SetStateAction<DateTime>>
+}
+
+/* interface DateType {
   justDate: Date | null
   dateTime: Date | null
-};
+}; */
 
-function Calendar() {
+const Calendar: FC<indexProps> = ({ setDate, date }) => {
 
-  const [date, setDate] = useState<DateType>({
+/*   const [date, setDate] = useState<DateType>({
     justDate: null,
     dateTime: null,
-  });
+  }); */
 
   function getTimes() {
     if (!date.justDate) return;
@@ -22,12 +29,12 @@ function Calendar() {
     const { justDate } = date;
 
     const beginning = add(justDate, { hours: openingTime });
-    const end = add(justDate, {hours: closingTime});
-    const interval = seatInterval; 
+    const end = add(justDate, { hours: closingTime });
+    const interval = seatInterval;
 
     const times = [];
 
-    for (let i = beginning; i <= end; i = add(i, {minutes: interval})) {
+    for (let i = beginning; i <= end; i = add(i, { minutes: interval })) {
       times.push(i)
     }
 
@@ -42,7 +49,7 @@ function Calendar() {
         <div className='flex flex-wrap gap-4'>
           {times?.map((time, i) => (
             <div key={`time-${i}`} className='rounded-sm bg-gray-100 p-2'>
-              <button type="button" onClick={() => setDate((prev) => ({...prev, dateTime: time}))}>
+              <button type="button" onClick={() => setDate((prev) => ({ ...prev, dateTime: time }))}>
                 {format(time, "kk:mm")}
               </button>
             </div>
