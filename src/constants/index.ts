@@ -115,3 +115,9 @@ export const awards = [
         subtitle: 'Lorem ipsum dolor sit amet, consectetur.',
     },
 ];
+
+export const openingTime = 10; //hours
+export const closingTime = 23; //hours
+export const seatInterval = 30; //minutes
+
+export const categories = ["all", "breakfast", "lunch", "dinner"] as const;

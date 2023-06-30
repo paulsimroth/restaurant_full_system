@@ -2,7 +2,7 @@
 import React, { Dispatch, FC, SetStateAction, useState } from 'react';
 import ReactCalendar from 'react-calendar';
 import { add, format } from "date-fns";
-import { closingTime, seatInterval, openingTime } from '../constants/config';
+import { closingTime, seatInterval, openingTime } from '../constants';
 import { type DateTime } from '@types';
 
 
