@@ -49,7 +49,7 @@ export const adminRouter = createTRPCRouter({
 
         const { url, fields } = await new Promise((resolve, reject) => {
             s3.createPresignedPost({
-                Bucket: "restaurant-booking-bucket",
+                Bucket: 'restaurant-booking-bucket',
                 Fields: { key },
                 Expires: 60,
                 Conditions: [
@@ -94,7 +94,7 @@ export const adminRouter = createTRPCRouter({
         .mutation(async ({ ctx, input }) => {
             //Delete Image from S3
             const { id, imageKey } = input
-            await s3.deleteObject({ Bucket: "restaurant-booking-bucket", Key: imageKey }).promise()
+            await s3.deleteObject({ Bucket: 'restaurant-booking-bucket', Key: imageKey }).promise()
 
             //Delete Iamage from Database
             await ctx.prisma.menuItem.delete({ where: { id } })

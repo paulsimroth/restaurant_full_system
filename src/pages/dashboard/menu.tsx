@@ -35,7 +35,8 @@ function menu() {
     // tRPC
     const { mutateAsync: createPresignedUrl } = trpc.admin.createPresignedUrl.useMutation();
     const { mutateAsync: addItem } = trpc.admin.addMenuItem.useMutation();
-    const { data: menuItems, refetch } = trpc.menu.getMenuItems.useQuery()
+    const { data: menuItems, refetch } = trpc.menu.getMenuItems.useQuery();
+    const { mutateAsync: deleteMenuItem } = trpc.admin.deleteMenuItem.useMutation();
 
     useEffect(() => {
         //create Preview
@@ -91,15 +92,16 @@ function menu() {
         });
 
         refetch();
-        
+
         //Reset Inputs and Preview
         setInput(initialInput);
         setPreview('');
     };
 
     const handleDelete = async (imageKey: string, id: string) => {
-        
-    }
+        await deleteMenuItem({id, imageKey})
+        refetch()
+    };
 
     return (
         <>
