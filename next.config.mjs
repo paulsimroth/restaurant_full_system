@@ -18,6 +18,9 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  images: {
+    domains: ["restaurant-booking-bucket.s3.eu-north-1.amazonaws.com"]
+  },
 };
 
 export default config;

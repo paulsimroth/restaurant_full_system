@@ -68,9 +68,9 @@ function menu() {
 
         const formData = new FormData();
 
-        Object.entries(data.forEach(([key, value]: any) => {
+        Object.entries(data).forEach(([key, value]: any) => {
             formData.append(key, value);
-        }));
+        });
 
         await fetch(url, {
             method: 'POST',

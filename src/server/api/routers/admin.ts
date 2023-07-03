@@ -41,9 +41,9 @@ export const adminRouter = createTRPCRouter({
         })
     }),
 
-    createPresignedUrl: adminProcedure.input(z.object({ fileType: z.string() })).mutation(async (input) => {
+    createPresignedUrl: adminProcedure.input(z.object({ fileType: z.string() })).mutation(async ({input}) => {
         const id = nanoid();
-        //@ts-ignore
+        
         const ex = input.fileType.split('/')[1];
         const key = `${id}.${ex}`;
 
