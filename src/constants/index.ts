@@ -120,4 +120,7 @@ export const openingTime = 10; //hours
 export const closingTime = 23; //hours
 export const seatInterval = 30; //minutes
 
-export const categories = ["all", "breakfast", "lunch", "dinner"] as const;
+export const maxFileSize = 1024 * 1024 * 5 ///5MB
+
+//CATEGORIES ALSO NEED TO BE ADDED @/server/api/routers/admin.ts @addMenuItems
+export const categories = ["all", "breakfast", "lunch", "dinner", "beer and wine", "cocktails"] as const;

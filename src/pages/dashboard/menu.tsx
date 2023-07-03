@@ -1,12 +1,16 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "~/sections/Navbar";
 import { selectOptions } from "~/utils/helpers";
 import { MultiValue } from "react-select/dist/declarations/src";
 import Select from "react-select";
 import dynamic from "next/dynamic";
+import Image from "next/image";
+import { maxFileSize } from "~/constants";
+import { trpc } from "~/utils/trpc";
+import { Categories } from "~/utils/types";
 
-const DynamicSelect = dynamic(() => import("react-select"), {ssr: false});
+const DynamicSelect = dynamic(() => import("react-select"), { ssr: false });
 
 type Input = {
     name: string
@@ -25,6 +29,77 @@ const initialInput = {
 function menu() {
 
     const [input, setInput] = useState<Input>(initialInput);
+    const [preview, setPreview] = useState<string>('');
+    const [error, setError] = useState<string>('');
+
+    // tRPC
+    const { mutateAsync: createPresignedUrl } = trpc.admin.createPresignedUrl.useMutation();
+    const { mutateAsync: addItem } = trpc.admin.addMenuItem.useMutation();
+    const { data: menuItems, refetch } = trpc.menu.getMenuItems.useQuery()
+
+    useEffect(() => {
+        //create Preview
+        if (!input.file) return;
+        const objectUrl = URL.createObjectURL(input.file);
+        setPreview(objectUrl);
+
+        //clean up preview
+        return () => URL.revokeObjectURL(objectUrl);
+    }, [input.file]);
+
+    const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.files?.[0]) return setError('No file selected');
+        if (e.target.files[0].size > maxFileSize) return setError('File too big; must be max. 5MB!');
+        setInput((prev) => ({ ...prev, file: e.target.files![0] }));
+    };
+
+    const handleImageUpload = async () => {
+        const { file } = input;
+        if (!file) return;
+
+        const { url, fields, key } = await createPresignedUrl({ fileType: file.type });
+
+        const data = {
+            ...fields,
+            'Content-Type': file.type,
+            file
+        };
+
+        const formData = new FormData();
+
+        Object.entries(data.forEach(([key, value]: any) => {
+            formData.append(key, value);
+        }));
+
+        await fetch(url, {
+            method: 'POST',
+            body: formData,
+        });
+
+        return key;
+    };
+
+    const addMenuItem = async () => {
+        const key = await handleImageUpload();
+        if (!key) throw new Error('No valid Key');
+
+        await addItem({
+            name: input.name,
+            imageKey: key,
+            categories: input.categories.map((c) => c.value as Exclude<Categories, 'all'>),
+            price: input.price,
+        });
+
+        refetch();
+        
+        //Reset Inputs and Preview
+        setInput(initialInput);
+        setPreview('');
+    };
+
+    const handleDelete = async (imageKey: string, id: string) => {
+        
+    }
 
     return (
         <>
@@ -58,6 +133,7 @@ function menu() {
 
                         <DynamicSelect
                             value={input.categories}
+                            //@ts-ignore
                             onChange={(e) => setInput((prev) => ({ ...prev, categories: e }))}
                             isMulti
                             className="h-12"
@@ -112,7 +188,7 @@ function menu() {
                                     </button>
                                 </div>
                             ))}
-                        </div> 
+                        </div>
                     </div>
                 </div>
             </div>

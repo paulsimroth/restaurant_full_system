@@ -6,6 +6,7 @@ import { trpc } from "~/utils/trpc";
 
 function page() {
 
+  //@ts-ignore
   const { mutate } = trpc.admin.sensitive.useMutation();
 
   return (
