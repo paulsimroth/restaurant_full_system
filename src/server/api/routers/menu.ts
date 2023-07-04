@@ -7,7 +7,8 @@ export const menuRouter = createTRPCRouter({
     getMenuItems: publicProcedure.query(async ({ctx}) => {
         const menuItems = ctx.prisma.menuItem.findMany()
 
-        /*Each menuItems only contains AWS key
+        /*
+        * Each menuItems only contains AWS key
         * Extend all items with actual image url 
         */
         const withUrls = await Promise.all(
