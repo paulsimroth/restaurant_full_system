@@ -1,7 +1,6 @@
 
 function Spinner() {
     return (
-        <div className="color-[#fff]">
         <svg
             className='spinner'
             width='65px'
@@ -18,7 +17,6 @@ function Spinner() {
                 r='30'>
             </circle>
         </svg>
-        </div>
     )
 };
 

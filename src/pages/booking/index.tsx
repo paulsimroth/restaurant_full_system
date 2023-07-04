@@ -22,6 +22,7 @@ function page() {
         <meta name="description" content="Book a table with us" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <main>
         <Navbar />
         <div className="h-[40vh] bg-[#1C2331] text-[#FFA500] mt-12 flex min-h-screen flex-col items-center justify-center p-24">
@@ -29,12 +30,13 @@ function page() {
             BOOK YOUR TABLE
           </h1>
           {!date.dateTime && <Calendar setDate={setDate} date={date} />}
-          {date.dateTime && true 
-          ? <Menu />
-          :
-          <div className="flex h-screen items-center justify-center">
-            <Spinner />
-          </div>}
+          {date.dateTime && false ? (
+            <Menu />
+          ) : (
+            <div className="flex h-screen items-center justify-center">
+              <Spinner />
+            </div>
+          )}
         </div>
         <Footer />
       </main>

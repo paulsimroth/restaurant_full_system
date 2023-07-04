@@ -113,8 +113,8 @@ function menu() {
             <div>
                 <Navbar />
 
-                <div className="flex h-[65vh] flex-col items-center justify-around p-24 text-[#2E3A59]">
-                    <h1>menu items</h1>
+                <div className="flex h-[65vh] flex-col items-center justify-around pt-24 text-[#2E3A59]">
+                    <h1 className='mt-16 text-[50px] md:text-[70px] font-semibold'>Menu Dashboard</h1>
                     <div className="mx-auto flex max-w-xl flex-col gap-2">
                         <input
                             name="name"
