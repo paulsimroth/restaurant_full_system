@@ -1,4 +1,4 @@
-
+'use client'
 function Spinner() {
     return (
         <svg

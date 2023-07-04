@@ -1,12 +1,14 @@
 'use client'
+
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { type DateTime } from '@types';
 import Calendar from "~/components/Calendar";
 import Footer from "~/sections/Footer";
 import Navbar from "~/sections/Navbar";
 import Menu from "~/components/Menu";
 import Spinner from "~/components/Spinner";
+import { trpc } from "~/utils/trpc";
 
 function page() {
 
@@ -14,6 +16,13 @@ function page() {
     justDate: null,
     dateTime: null,
   });
+
+  useEffect(() => {
+    if(date.dateTime) checkMenuStatus()
+  },[date]);
+
+  //tRPC
+  const {mutate: checkMenuStatus, isSuccess} = trpc.menu.checkMenuStatus.useMutation();
 
   return (
     <>
@@ -30,7 +39,7 @@ function page() {
             BOOK YOUR TABLE
           </h1>
           {!date.dateTime && <Calendar setDate={setDate} date={date} />}
-          {date.dateTime && false ? (
+          {date.dateTime && isSuccess ? (
             <Menu />
           ) : (
             <div className="flex h-screen items-center justify-center">
