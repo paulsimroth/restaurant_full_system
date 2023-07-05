@@ -45,7 +45,7 @@ export const openingRouter = createTRPCRouter({
      * @param date Date to close
      */
 
-    closeDay: adminProcedure.input(z.object({ date: z.date() })).mutation(async ({ ctx, input }) => {
+    closedDay: adminProcedure.input(z.object({ date: z.date() })).mutation(async ({ ctx, input }) => {
         await ctx.prisma.closedDay.create({
             data: {
                 date: input.date,

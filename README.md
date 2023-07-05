@@ -4,17 +4,19 @@ This is an All-in_one soluton for restaurants in need of a simple website with a
 
 ## Development
 
-### PRISMA DATABASE
+Follow these steps to start your Dev environment
 
-connect Prisma to Database.
-For starting devlopment and after changes to schema.prisma
+1. (Only at first setup or after a chnage to schema.prisma) Connect Prisma to Database
 `npx prisma db push`
 
-Generate Prisma Client
+2. Generate Prisma Client
 `npx prisma generate`
 
-Look at the menu items in the Databse
+3. Look at the menu items in the Databse
 `npx prisma studio`
+
+4. start server
+`npm run dev`
 
 ## Technology Stack & Tools
 

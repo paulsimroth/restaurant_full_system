@@ -6,6 +6,10 @@ import { capitalize, selectOptions } from "~/utils/helpers";
 import { useState } from "react";
 import { parseISO } from "date-fns";
 
+interface MenuProps {
+  selectedTime: string
+}
+
 function Menu({selectedTime}: any) {
 
   const { data: menuItems } = trpc.menu.getMenuItems.useQuery();

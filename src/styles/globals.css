@@ -34,3 +34,17 @@ h1 {
   border-radius: 100vw;
 }
 
+.closed-day {
+  background-color: #550000;
+  color: white;
+}
+
+.closed-day:hover {
+  background-color: #6d0000 !important;
+  color: white !important;
+}
+
+.closed-day:enabled:focus {
+  background-color: #8a0000 !important;
+  color: white;
+}

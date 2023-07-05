@@ -1,25 +1,20 @@
 'use client'
-import { Day } from '@prisma/client';
-import { type DateTime } from '@types';
+
+import type { Day } from '@prisma/client';
+import type { DateTime } from '@types';
 import { format, formatISO, isBefore, parse } from "date-fns";
 import { useRouter } from 'next/router';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { type FC, useEffect, useState } from 'react';
 import ReactCalendar from 'react-calendar';
-import { Seat_Interval, now,  } from '~/constants';
+import { Seat_Interval, now } from '~/constants';
 import { getOpeningTimes, roundToNearestMinutes } from '~/utils/helpers';
-
-
-interface indexProps {
-  date: DateTime
-  setDate: Dispatch<SetStateAction<DateTime>>
-}
 
 interface CalenderProps {
   days: Day[]
   closedDays: string[] //as ISO string
 }
 
-function Calendar({ days, closedDays }: CalenderProps) {
+function Calendar<FC> ({ days, closedDays }: CalenderProps) {
 
   const router = useRouter();
 
@@ -37,12 +32,12 @@ function Calendar({ days, closedDays }: CalenderProps) {
   });
 
   useEffect(() => {
-    if(date.dateTime) {
+    if (date.dateTime) {
       localStorage.setItem('selectedTime', date.dateTime.toISOString());
       router.push('/menu');
     }
-  }, [date.dateTime]);
-  
+  }, [date.dateTime, router]);
+
   const times = date.justDate && getOpeningTimes(date.justDate, days);
 
   return (
@@ -62,7 +57,7 @@ function Calendar({ days, closedDays }: CalenderProps) {
           minDate={new Date()}
           className="p-2 REACT-CALENDAR font-bold"
           view='month'
-          tileDisabled={({date}) => closedDays.includes(formatISO(date))}
+          tileDisabled={({ date }) => closedDays.includes(formatISO(date))}
           onClickDay={(date) => setDate((prev) => ({ ...prev, justDate: date }))}
         />
       )}

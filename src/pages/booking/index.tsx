@@ -11,9 +11,7 @@ interface HomeProps {
   closedDays: string[] //ISO string
 }
 
-function page({days, closedDays}: HomeProps) {
-
-  
+function page({ days, closedDays }: HomeProps) {
 
   return (
     <>
