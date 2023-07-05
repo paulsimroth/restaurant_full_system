@@ -10,18 +10,19 @@ import Footer from "~/sections/Footer";
 import Navbar from "~/sections/Navbar";
 import { trpc } from "~/utils/trpc";
 
-interface menuProps {}
+interface menuProps { }
 
-function page({}: menuProps) {
+function page({ }: menuProps) {
 
     const router = useRouter();
-    //selectedTime as ISO string
-    const [selectedTime, setSelectedTime] = useState<String | null>(null);
-    const {isFetchedAfterMount} = trpc.menu.checkMenuStatus.useQuery(undefined, {
+
+    const [selectedTime, setSelectedTime] = useState<String | null>(null);//selectedTime as ISO string
+    //@ts-ignore
+    const { isFetchedAfterMount } = trpc.menu.checkMenuStatus.useQuery(undefined, {
         onError: () => {
             //Check for validity of selectedTime failed
             // Handle error (e.g. route to Homepage)
-        }
+        },
     });
 
     useEffect(() => {
@@ -50,8 +51,8 @@ function page({}: menuProps) {
                     <div>
                         {isFetchedAfterMount && selectedTime ? (
                             <>
-                            <button>Back to Time Selection</button>
-                            <Menu selectedTime={selectedTime} />
+                                <button>Back to Time Selection</button>
+                                <Menu selectedTime={selectedTime} />
                             </>
                         ) : (
                             <div className="flex h-screen items-center justify-center">

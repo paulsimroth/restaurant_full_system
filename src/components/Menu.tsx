@@ -6,7 +6,7 @@ import { capitalize, selectOptions } from "~/utils/helpers";
 import { useState } from "react";
 import { parseISO } from "date-fns";
 
-function Menu() {
+function Menu({selectedTime}: any) {
 
   const { data: menuItems } = trpc.menu.getMenuItems.useQuery();
   const [filter, setFilter] = useState<undefined | string>('');

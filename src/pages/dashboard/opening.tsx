@@ -1,7 +1,55 @@
+import { Day } from "@prisma/client";
 import Head from "next/head";
 import Navbar from "~/sections/Navbar";
+import { prisma } from "~/server/db";
+import { useEffect, useState } from "react";
+import { trpc } from "~/utils/trpc";
+import { formatISO } from "date-fns";
+import toast, { Toaster } from 'react-hot-toast'
+import { Switch } from "@headlessui/react";
+import { capitalize, classNames, weekdayIndexToName } from "~/utils/helpers";
+import TimeSelector from "~/components/TimeSelector";
+import Calendar from "react-calendar";
+import { now } from "~/constants";
 
-function opening() {
+interface openingProps {
+    days: Day[]
+}
+
+function opening({ days }: openingProps) {
+
+    const [enabled, setEnabled] = useState<boolean>(false);
+    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+    const [openingHours, setOpeningHours] = useState([
+        { name: 'sunday', openTime: days[0]!.openTime, closeTime: days[0]!.closeTime },
+        { name: 'monday', openTime: days[1]!.openTime, closeTime: days[1]!.closeTime },
+        { name: 'tuesday', openTime: days[2]!.openTime, closeTime: days[2]!.closeTime },
+        { name: 'wednesday', openTime: days[3]!.openTime, closeTime: days[3]!.closeTime },
+        { name: 'thursday', openTime: days[4]!.openTime, closeTime: days[4]!.closeTime },
+        { name: 'friday', openTime: days[5]!.openTime, closeTime: days[5]!.closeTime },
+        { name: 'saturday', openTime: days[6]!.openTime, closeTime: days[6]!.closeTime },
+    ]);
+
+    //tRPC
+    const { mutate: saveOpeningHrs, isLoading } = trpc.opening.changeOpeningHours.useMutation({
+        onSuccess: () => toast.success('Opening hours saved'),
+        onError: () => toast.error('Something went wrong'),
+    })
+    const { mutate: closeDay } = trpc.opening.closeDay.useMutation({ onSuccess: () => refetch() })
+    const { mutate: openDay } = trpc.opening.openDay.useMutation({ onSuccess: () => refetch() });
+    const { data: closeDays, refetch } = trpc.opening.getClosedDays.useQuery();
+
+    const dayIsClosed = selectedDate && closeDays?.includes(formatISO(selectedDate));
+
+    function _changeTime(day: Day) {
+        return function (time: string, type: 'openTime' | 'closeTime') {
+            const index = openingHours.findIndex((x) => x.name === weekdayIndexToName(day.dayOfWeek))
+            const newOpeningHours = [...openingHours]
+            newOpeningHours[index]![type] = time
+            setOpeningHours(newOpeningHours)
+        }
+    };
+
     return (
         <>
             <Head>
@@ -11,14 +59,98 @@ function opening() {
             </Head>
             <div>
                 <Navbar />
+                <Toaster />
                 <div className="flex h-[65vh] flex-col items-center justify-around p-24 text-[#2E3A59]">
                     <h1 className='mt-16 text-[50px] md:text-[70px] font-semibold'>Opening Hours Dashboard</h1>
-                    
+                    <div>
+                        <Switch
+                            checked={enabled}
+                            onChange={setEnabled}
+                            className={classNames(
+                                enabled ? 'bg-indigo-600' : 'bg-black',
+                                'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+                            )}
+                        >
+                            <span className="sr-only">Use Setting</span>
+                            <span
+                                aria-hidden='true'
+                                className={classNames(
+                                    enabled ? 'translate-x-5' : 'translate-x-0',
+                                    'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out'
+                                )}
+                            />
+
+                        </Switch>
+                        <p className={`${enabled ? 'font-medium' : ''}`}>Opening Days</p>
+                    </div>
+                    {!enabled ? (
+                        //Opening time options
+                        <div className="my-12 flex flex-col gap-8">
+                            {days.map((day) => {
+                                const changeTime = _changeTime(day)
+                                return (
+                                    <div className="grid grid-cols-3 place-items-center" key={day.id}>
+                                        <h3 className='font-semibold'>{capitalize(weekdayIndexToName(day.dayOfWeek)!)}</h3>
+                                        <div className='mx-4'>
+                                            <TimeSelector
+                                                type='openTime'
+                                                changeTime={changeTime}
+                                                selected={
+                                                    openingHours[openingHours.findIndex((x) => x.name === weekdayIndexToName(day.dayOfWeek))]
+                                                        ?.openTime
+                                                }
+                                            />
+                                        </div>
+                                    </div>
+                                )
+                            })}
+
+                            <button
+                                onClick={() => {
+                                    const withId = openingHours.map((day) => ({
+                                        ...day,
+                                        id: days[days.findIndex((d) => d.name === day.name)]!.id,
+                                    }))
+                                    saveOpeningHrs(withId)
+                                }}
+                            >
+                                Save Changes
+                            </button>
+                        </div>
+                    ) : (
+                        //Opening Days Options
+                        <div>
+                            <Calendar
+                                minDate={now}
+                                className='REACT-CALENDAR p-2'
+                                view='month'
+                                onClickDay={(date) => setSelectedDate(date)}
+                                tileClassName={({ date }) => {
+                                    return closeDays?.includes(formatISO(date)) ? 'close-day' : null
+                                }}
+                            />
+
+                            <button
+                                onClick={() => {
+                                    if (dayIsClosed) openDay({ date: selectedDate })
+                                    else if (selectedDate) closeDay({ date: selectedDate })
+                                }}
+                            >
+                                {dayIsClosed ? 'Open this day' : 'Close this day'}
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
 
         </>
     )
 };
+
+export async function getServerSideProps() {
+    const days = await prisma.day.findMany();
+    if (!(days.length === 7)) throw new Error('Insert all days inot database');
+    return { props: { days } };
+}
 
 export default opening;
