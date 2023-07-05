@@ -20,6 +20,7 @@ function opening({ days }: openingProps) {
 
     const [enabled, setEnabled] = useState<boolean>(false);
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
     const [openingHours, setOpeningHours] = useState([
         { name: 'sunday', openTime: days[0]!.openTime, closeTime: days[0]!.closeTime },
         { name: 'monday', openTime: days[1]!.openTime, closeTime: days[1]!.closeTime },
@@ -61,13 +62,13 @@ function opening({ days }: openingProps) {
                 <Navbar />
                 <Toaster />
                 <div className="flex flex-col items-center justify-around p-24 text-[#2E3A59]">
-                    <h1 className='mt-16 text-[50px] font-semibold'>Opening Hours Dashboard</h1>
-                    <div>
+                    <h1 className='mt-8 text-[50px] font-bold'>Opening Hours Dashboard</h1>
+                    <div className="inline-block">
                         <Switch
                             checked={enabled}
                             onChange={setEnabled}
                             className={classNames(
-                                enabled ? 'bg-indigo-600' : 'bg-black',
+                                enabled ? 'bg-indigo-600' : 'bg-[#1C2331]',
                                 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
                             )}>
                             <span className="sr-only">Use Setting</span>
@@ -83,7 +84,7 @@ function opening({ days }: openingProps) {
                     </div>
                     {!enabled ? (
                         //Opening time options
-                        <div className="my-12 flex flex-col gap-8">
+                        <div className="my-12 flex flex-col items-center justify-center gap-4">
                             {days.map((day) => {
                                 const changeTime = _changeTime(day)
                                 return (
@@ -114,7 +115,7 @@ function opening({ days }: openingProps) {
                             })}
 
                             <button
-                                className="m-1 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"
+                                className="m-2 flex items-center h-fit w-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"
                                 onClick={() => {
                                     const withId = openingHours.map((day) => ({
                                         ...day,
@@ -128,7 +129,7 @@ function opening({ days }: openingProps) {
                         </div>
                     ) : (
                         //Opening Days Options
-                        <div>
+                        <div className="flex flex-col items-center justify-center">
                             <Calendar
                                 minDate={now}
                                 className='REACT-CALENDAR p-2'
@@ -140,7 +141,7 @@ function opening({ days }: openingProps) {
                             />
 
                             <button
-                                className="m-1 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"
+                                className="m-2 flex items-center h-fit w-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"
                                 onClick={() => {
                                     if (dayIsClosed) openDay({ date: selectedDate })
                                     else if (selectedDate) closedDay({ date: selectedDate })
