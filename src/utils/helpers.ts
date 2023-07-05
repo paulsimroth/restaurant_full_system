@@ -13,7 +13,7 @@ export const weekdayIndexToName = (index: number) => {
 };
 
 export function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join('');
+    return classes.filter(Boolean).join(' ');
 };
 
 //funtion to round nearest time to the next seatInterval; 
@@ -59,7 +59,7 @@ export const getOpeningTimes = (startDate: Date, dbDays: Day[]) => {
     };
 
     const beginning = add(startDate, {hours, minutes});
-    const end = add(startDate, {hours: getHours(closing)});
+    const end = add(startDate, {hours: getHours(closing), minutes: getMinutes(closing)});
     const interval = Seat_Interval;
 
     //from beginning to end, every interval, generate a date and put that into an array

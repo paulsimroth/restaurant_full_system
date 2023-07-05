@@ -35,11 +35,11 @@ function opening({ days }: openingProps) {
         onSuccess: () => toast.success('Opening hours saved'),
         onError: () => toast.error('Something went wrong'),
     })
-    const { mutate: closeDay } = trpc.opening.closeDay.useMutation({ onSuccess: () => refetch() })
+    const { mutate: closedDay } = trpc.opening.closedDay.useMutation({ onSuccess: () => refetch() })
     const { mutate: openDay } = trpc.opening.openDay.useMutation({ onSuccess: () => refetch() });
-    const { data: closeDays, refetch } = trpc.opening.getClosedDays.useQuery();
+    const { data: closedDays, refetch } = trpc.opening.getClosedDays.useQuery();
 
-    const dayIsClosed = selectedDate && closeDays?.includes(formatISO(selectedDate));
+    const dayIsClosed = selectedDate && closedDays?.includes(formatISO(selectedDate));
 
     function _changeTime(day: Day) {
         return function (time: string, type: 'openTime' | 'closeTime') {
@@ -60,8 +60,8 @@ function opening({ days }: openingProps) {
             <div>
                 <Navbar />
                 <Toaster />
-                <div className="flex h-[65vh] flex-col items-center justify-around p-24 text-[#2E3A59]">
-                    <h1 className='mt-16 text-[50px] md:text-[70px] font-semibold'>Opening Hours Dashboard</h1>
+                <div className="flex flex-col items-center justify-around p-24 text-[#2E3A59]">
+                    <h1 className='mt-16 text-[50px] font-semibold'>Opening Hours Dashboard</h1>
                     <div>
                         <Switch
                             checked={enabled}
@@ -69,17 +69,15 @@ function opening({ days }: openingProps) {
                             className={classNames(
                                 enabled ? 'bg-indigo-600' : 'bg-black',
                                 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-                            )}
-                        >
+                            )}>
                             <span className="sr-only">Use Setting</span>
                             <span
                                 aria-hidden='true'
                                 className={classNames(
                                     enabled ? 'translate-x-5' : 'translate-x-0',
-                                    'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out'
+                                    'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-300 ease-in-out'
                                 )}
                             />
-
                         </Switch>
                         <p className={`${enabled ? 'font-medium' : ''}`}>Opening Days</p>
                     </div>
@@ -90,7 +88,7 @@ function opening({ days }: openingProps) {
                                 const changeTime = _changeTime(day)
                                 return (
                                     <div className="grid grid-cols-3 place-items-center" key={day.id}>
-                                        <h3 className='font-semibold'>{capitalize(weekdayIndexToName(day.dayOfWeek)!)}</h3>
+                                        <h3 className='font-bold'>{capitalize(weekdayIndexToName(day.dayOfWeek)!)}</h3>
                                         <div className='mx-4'>
                                             <TimeSelector
                                                 type='openTime'
@@ -101,11 +99,22 @@ function opening({ days }: openingProps) {
                                                 }
                                             />
                                         </div>
+                                        <div className='mx-4'>
+                                            <TimeSelector
+                                                type='closeTime'
+                                                changeTime={changeTime}
+                                                selected={
+                                                    openingHours[openingHours.findIndex((x) => x.name === weekdayIndexToName(day.dayOfWeek))]
+                                                        ?.closeTime
+                                                }
+                                            />
+                                        </div>
                                     </div>
                                 )
                             })}
 
                             <button
+                                className="m-1 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"
                                 onClick={() => {
                                     const withId = openingHours.map((day) => ({
                                         ...day,
@@ -126,14 +135,15 @@ function opening({ days }: openingProps) {
                                 view='month'
                                 onClickDay={(date) => setSelectedDate(date)}
                                 tileClassName={({ date }) => {
-                                    return closeDays?.includes(formatISO(date)) ? 'close-day' : null
+                                    return closedDays?.includes(formatISO(date)) ? 'close-day' : null
                                 }}
                             />
 
                             <button
+                                className="m-1 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"
                                 onClick={() => {
                                     if (dayIsClosed) openDay({ date: selectedDate })
-                                    else if (selectedDate) closeDay({ date: selectedDate })
+                                    else if (selectedDate) closedDay({ date: selectedDate })
                                 }}
                             >
                                 {dayIsClosed ? 'Open this day' : 'Close this day'}
