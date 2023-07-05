@@ -22,3 +22,16 @@ model MenuItem {
     imageKey   String
     active     Boolean  @default(true)
 }
+
+model Day {
+    id        String @id @default(cuid()) @map("_id")
+    name      String //monday, tuesday...
+    dayOfWeek Int // @see getDay() docs; 0 for Sunday, 1 for Monday, etc.
+    openTime  String
+    closeTime String
+}
+
+model ClosedDay {
+    id   String   @id @default(cuid()) @map("_id")
+    date DateTime @unique
+}

@@ -1,28 +1,19 @@
-'use client'
-
 import Head from "next/head";
-import { useEffect, useState } from "react";
-import { type DateTime } from '@types';
 import Calendar from "~/components/Calendar";
 import Footer from "~/sections/Footer";
 import Navbar from "~/sections/Navbar";
-import Menu from "~/components/Menu";
-import Spinner from "~/components/Spinner";
-import { trpc } from "~/utils/trpc";
+import { prisma } from "~/server/db";
+import { formatISO } from "date-fns";
+import { Day } from "@prisma/client";
 
-function page() {
+interface HomeProps {
+  days: Day[]
+  closedDays: string[] //ISO string
+}
 
-  const [date, setDate] = useState<DateTime>({
-    justDate: null,
-    dateTime: null,
-  });
+function page({days, closedDays}: HomeProps) {
 
-  useEffect(() => {
-    if(date.dateTime) checkMenuStatus()
-  },[date]);
-
-  //tRPC
-  const {mutate: checkMenuStatus, isSuccess} = trpc.menu.checkMenuStatus.useMutation();
+  
 
   return (
     <>
@@ -38,19 +29,18 @@ function page() {
           <h1 className='m-2 text-[50px] md:text-[70px] text-[#FFA500] font-semibold'>
             BOOK YOUR TABLE
           </h1>
-          {!date.dateTime && <Calendar setDate={setDate} date={date} />}
-          {date.dateTime && isSuccess ? (
-            <Menu />
-          ) : (
-            <div className="flex h-screen items-center justify-center">
-              <Spinner />
-            </div>
-          )}
+          <Calendar days={days} closedDays={closedDays} />
         </div>
         <Footer />
       </main>
     </>
   )
+};
+
+export async function getServerSideProps() {
+  const days = await prisma.day.findMany();
+  const closedDays = (await prisma.closedDay.findMany()).map((d) => formatISO(d.date));
+  return { props: { days, closedDays } };
 };
 
 export default page;

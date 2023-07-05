@@ -10,6 +10,9 @@ connect Prisma to Database.
 For starting devlopment and after changes to schema.prisma
 `npx prisma db push`
 
+Generate Prisma Client
+`npx prisma generate`
+
 Look at the menu items in the Databse
 `npx prisma studio`
 

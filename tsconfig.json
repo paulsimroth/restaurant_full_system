@@ -20,7 +20,8 @@
     "paths": {
       "~/*": ["./src/*"],
       "@types": ["src/utils/types"],
-    }
+      "@components/*": ["src/components/*"],
+    },
   },
   "include": [
     ".eslintrc.cjs",

@@ -13,7 +13,7 @@ function page() {
       <main>
         <Navbar />
         <div className="flex min-h-screen flex-col items-center justify-between p-24">
-          DATA POLICY
+        <h1 className='m-2 text-[50px] md:text-[70px] font-semibold'>Data Policy</h1>
         </div>
         <Footer />
       </main>
