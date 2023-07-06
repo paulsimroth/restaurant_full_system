@@ -34,6 +34,7 @@ function Calendar<FC> ({ days, closedDays }: CalenderProps) {
   useEffect(() => {
     if (date.dateTime) {
       localStorage.setItem('selectedTime', date.dateTime.toISOString());
+      //after Day and time are choosen redirecting to /menu
       router.push('/menu');
     }
   }, [date.dateTime, router]);
@@ -43,6 +44,7 @@ function Calendar<FC> ({ days, closedDays }: CalenderProps) {
   return (
     <div className='h-screen flex flex-col justify-center items-center'>
       {date.justDate ? (
+        // If a day (@param justDate) is defined a time can be chosen
         <div className='flex flex-wrap gap-4'>
           {times?.map((time, i) => (
             <div key={`time-${i}`} className='rounded-sm bg-gray-100 p-2'>
@@ -53,6 +55,7 @@ function Calendar<FC> ({ days, closedDays }: CalenderProps) {
           ))}
         </div>
       ) : (
+        // Calendar to choose Day == @param jusDate
         <ReactCalendar
           minDate={new Date()}
           className="p-2 REACT-CALENDAR font-bold"

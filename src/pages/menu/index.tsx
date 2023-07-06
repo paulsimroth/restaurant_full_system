@@ -26,6 +26,7 @@ function page({ }: menuProps) {
 
     useEffect(() => {
         const selectedTime = localStorage.getItem('selectedTime');
+        //reroutes to home if not time selected
         if (!selectedTime) router.push('/')
         else {
             const date = parseISO(selectedTime)
@@ -39,8 +40,8 @@ function page({ }: menuProps) {
     return (
         <>
             <Head>
-                <title>Imprint</title>
-                <meta name="description" content="Imprint" />
+                <title>Our Menu</title>
+                <meta name="description" content="Our Menu" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
@@ -50,7 +51,7 @@ function page({ }: menuProps) {
                     <div>
                         {isFetchedAfterMount && selectedTime ? (
                             <>
-                                <button>Back to Time Selection</button>
+                                <button className="border p-2 border-[#2E3A59] hover:scale-110 duration-300 font-bold">Back to Time Selection</button>
                                 <Menu selectedTime={selectedTime} />
                             </>
                         ) : (
