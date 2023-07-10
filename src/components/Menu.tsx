@@ -34,6 +34,7 @@ function Menu({selectedTime}: any) {
             />
             On Our Menu for {format(parseISO(selectedTime), 'MMM do, yyyy')}
           </h2>
+          {/* Here is the selection of categories in the Menu. if they need to be changed they need to be changed in utils */}
           <Select
             onChange={(e) => {
               if (e?.value === 'all') setFilter(undefined)

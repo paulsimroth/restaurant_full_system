@@ -1,23 +1,20 @@
 'use client';
 
 import { useState } from "react";
-import { sendForm } from "../lib/api";
+import { sendBookingForm, sendForm } from "../lib/api";
 import Image from "next/image";
 
 const initValues = {
     user_name: "",
     user_email: "",
     subject: "",
+    selectedTime: "",
     message: "",
 };
 
 const initFormState = { values: initValues };
 
-/**
- * CONTACT FORM USING NODEMAILER
- * Please visit Nodemailer Docs for more
- */
-function ContactForm() {
+function BookingForm({selectedTime}: any) {
 
     const [formState, setFormState] = useState(initFormState);
     const [processing, setProcessing] = useState(false);
@@ -41,7 +38,7 @@ function ContactForm() {
             ...prev,
         }))
         try {
-            await sendForm(values);
+            await sendBookingForm(values);
             setProcessing(false);
             setMsgError(false);
             setFormState(initFormState);
@@ -53,6 +50,7 @@ function ContactForm() {
             }))
         };
     };
+
 
     return (
         <>
@@ -113,7 +111,6 @@ function ContactForm() {
                 <div className="relative w-[98%] ">
                     <p className="px-3 text-[16px] md:text-[20px] flex flex-row">
                         Message
-                        <Image src="/asterisk.svg" alt="required" width={15} height={15} className="m-1"/>
                     </p>
 
                     <textarea
@@ -124,6 +121,7 @@ function ContactForm() {
                         onChange={handleChange}
                         required
                     >
+                        
                     </textarea>
                 </div>
 
@@ -133,7 +131,7 @@ function ContactForm() {
                         type="submit"
                         value="Send"
                         onClick={onSubmit}
-                        disabled={!values.user_name || !values.user_email || !values.subject || !values.message}
+                        disabled={!values.user_name || !values.user_email || !values.subject }
                     />
                     : <input
                         className="flex items-center h-fit border-2 border-[#FFA500] py-4 px-6 bg-red gap-[12px] cursor-progress"
@@ -153,4 +151,4 @@ function ContactForm() {
     )
 };
 
-export default ContactForm;
+export default BookingForm;

@@ -4,6 +4,7 @@ import { Seat_Interval, categories, now } from "~/constants";
 
 export const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
 
+//Options to select from on the menu
 export const selectOptions = categories.map((category) => ({value: category, label: capitalize(category)}));
 
 //get weekday from index

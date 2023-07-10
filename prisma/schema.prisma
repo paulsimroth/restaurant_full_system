@@ -16,28 +16,39 @@ datasource db {
 
 // Model of menu item
 model MenuItem {
-    id         String   @id @default(cuid()) @map("_id")
-    createdAt  DateTime @default(now())
-    updatedAt  DateTime @updatedAt
-    name       String       //name of dish
-    price      Float        //price
-    // description String   //description of the dish
-    categories String[]     //categories assigend to the dish
-    imageKey   String       //key of the image
-    active     Boolean  @default(true)
+    id          String   @id @default(cuid()) @map("_id")
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    name        String //name of dish
+    price       Float //price
+    description String //description of the dish
+    categories  String[] //categories assigend to the dish
+    // imageKey   String       //key of the image
+    active      Boolean  @default(true)
 }
 
 // Model of a regular Day
 model Day {
     id        String @id @default(cuid()) @map("_id")
-    name      String    //monday, tuesday...
-    dayOfWeek Int       // @see getDay() docs; 0 for Sunday, 1 for Monday, etc.
-    openTime  String    //Time of opening
-    closeTime String    //Time of closing
+    name      String //monday, tuesday...
+    dayOfWeek Int // @see getDay() docs; 0 for Sunday, 1 for Monday, etc.
+    openTime  String //Time of opening
+    closeTime String //Time of closing
 }
 
 // Model of a closed day
 model ClosedDay {
     id   String   @id @default(cuid()) @map("_id")
     date DateTime @unique //date of closed day
+}
+
+//Model of a customer
+model Customer {
+    id      String   @id @default(cuid()) @map("_id")
+    name    String
+    surname String
+    phone   String
+    email   String
+    seats   Int
+    date    DateTime
 }

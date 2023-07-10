@@ -35,7 +35,7 @@ function Calendar<FC> ({ days, closedDays }: CalenderProps) {
     if (date.dateTime) {
       localStorage.setItem('selectedTime', date.dateTime.toISOString());
       //after Day and time are choosen redirecting to /menu
-      router.push('/menu');
+      router.push('/booking/contact');
     }
   }, [date.dateTime, router]);
 

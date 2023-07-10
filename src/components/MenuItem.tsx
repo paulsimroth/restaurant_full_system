@@ -1,4 +1,3 @@
-import React from 'react'
 
 function MenuItem({title, price, tags}: any) {
   return (

@@ -1,6 +1,6 @@
 # RESTAURANT FULLSTACK APP
 
-This is an All-in_one soluton for restaurants in need of a simple website with an integrated admin dashboard
+This is an All-in-one solution for restaurants in need of a simple website with an integrated admin dashboard.
 
 ## Development
 
