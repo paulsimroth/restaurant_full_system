@@ -53,7 +53,6 @@ function page({ }: menuProps) {
                         {isFetchedAfterMount && selectedTime ? (
                             <>
                                 <button className="border p-2 border-[#2E3A59] hover:scale-110 duration-300 font-bold">Back to Time Selection</button>
-                                {/* <Menu selectedTime={selectedTime} /> */}
                                 <BookingForm selectedTime={selectedTime} />
                             </>
                         ) : (

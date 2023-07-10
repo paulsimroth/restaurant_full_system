@@ -18,7 +18,7 @@ type Input = {
     email: string
     phone: string
     seats: MultiValue<{ value: number | any; label: number | any }>
-    selectedTime: any
+    selectedTime: string
     message: string
 }
 
@@ -44,6 +44,13 @@ function BookingForm({ selectedTime }: any) {
     const [input, setInput] = useState<Input>(initValues);
     const [processing, setProcessing] = useState(false);
     const [msgError, setMsgError] = useState(false);
+
+    //SELECTED TIME IS SAVED TO STATE
+    function time(input: string) {
+        setInput((prev) => ({ ...prev, selectedTime: input }))
+    };
+
+    time(selectedTime);
 
 
     const onSubmit = async (e: any) => {
