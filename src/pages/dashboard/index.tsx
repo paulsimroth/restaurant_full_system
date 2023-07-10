@@ -33,6 +33,11 @@ function page() {
               className="m-2 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300">
               Menu
             </Link>
+            <Link
+              href="/dashboard/tables"
+              className="m-2 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300">
+              Bookings
+            </Link>
           </div>
         </div>
       </main>

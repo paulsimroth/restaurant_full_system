@@ -123,10 +123,10 @@ function menu() {
 
                 <div className="flex h-[65vh] flex-col items-center justify-around pt-24 text-[#2E3A59]">
                     <h1 className='mt-16 text-[50px] md:text-[70px] font-semibold'>Menu Dashboard</h1>
-                    <div className="mx-auto flex max-w-xl flex-col gap-2">
+                    <div className="mx-auto flex w-2/3 flex-col gap-2">
                         <input
                             name="name"
-                            className="h-12 rounded-sm border-none bg-gray-200"
+                            className="h-12 p-2 rounded-sm border-none bg-gray-200"
                             type="text"
                             placeholder="name"
                             onChange={(e) => setInput((prev) => ({ ...prev, name: e.target.value }))}
@@ -135,19 +135,18 @@ function menu() {
 
                         <input
                             name="price"
-                            className="h-12 rounded-sm border-none bg-gray-200"
+                            className="h-12 p-2 rounded-sm border-none bg-gray-200"
                             type="number"
                             placeholder="price"
                             onChange={(e) => setInput((prev) => ({ ...prev, price: Number(e.target.value) }))}
                         />
 
-                        <input
+                        <textarea
                             name="description"
-                            className="h-12 rounded-sm border-none bg-gray-200"
-                            type="text"
+                            className="h-12 p-2 rounded-sm border-none bg-gray-200"
                             placeholder="description"
                             onChange={(e) => setInput((prev) => ({ ...prev, description: e.target.value }))}
-                            value={input.name}
+                            value={input.description}
                         />
 
                         <DynamicSelect
