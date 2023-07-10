@@ -126,4 +126,6 @@ export const maxFileSize = 1024 * 1024 * 5 ///5MB
 //CATEGORIES ALSO NEED TO BE ADDED @/server/api/routers/admin.ts @addMenuItems
 export const categories = ["all", "breakfast", "lunch", "dinner", "beer and wine", "cocktails"] as const;
 
+export const seats = [1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
+
 export const now = new Date(); // Do not use this in mutated functions, e.g. setHours(0, 0, 0, 0)

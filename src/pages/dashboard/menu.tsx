@@ -17,7 +17,6 @@ type Input = {
     price: number
     description: string
     categories: MultiValue<{ value: string; label: string }>
-    file: undefined | File
 }
 
 const initialInput = {
@@ -25,7 +24,6 @@ const initialInput = {
     price: 0,
     description: "",
     categories: [],
-    file: undefined,
 }
 
 /**
@@ -191,18 +189,20 @@ function menu() {
                     {error && <p className='text-xs text-red-600'>{error}</p>}
 
                     <div className='mx-auto mt-12 max-w-7xl'>
-                        <p className='text-lg font-medium'>Your menu items:</p>
+                        <p className='text-lg font-bold m-2'>Your menu items:</p>
                         <div className='mt-6 mb-12 grid grid-cols-4 gap-8'>
                             {menuItems?.map((menuItem) => (
-                                <div key={menuItem.id}>
-                                    <p>{menuItem.name}</p>
+                                <div key={menuItem.id} className="m-1 p-1 border border-black">
+                                    <p className="font-bold">{menuItem.name}</p>
+                                    <p>€{menuItem.price}</p>
+                                    <p>{menuItem.description}</p>
                                     {/*                                     <div className='relative h-40 w-40'>
                                         <Image priority fill alt='' src={menuItem.url} />
                                     </div> */}
                                     <button
                                         onClick={() => handleDelete(menuItem.id)}
-                                        className='text-xs text-red-500'>
-                                        delete
+                                        className='text-xs text-red-500 border-red-500 border-2 p-1 rounded-md'>
+                                        Delete
                                     </button>
                                 </div>
                             ))}

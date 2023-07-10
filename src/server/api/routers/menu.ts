@@ -1,4 +1,3 @@
-import { s3 } from "~/lib/s3";
 import { createTRPCRouter, publicProcedure} from "../trpc";
 
 export const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));

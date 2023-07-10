@@ -5,8 +5,6 @@ import { nanoid } from "nanoid";
 import { getJwtSecretKey } from "~/lib/auth";
 import cookie from 'cookie';
 import { TRPCError } from "@trpc/server";
-import { s3 } from "~/lib/s3";
-import { maxFileSize } from "~/constants";
 
 export const adminRouter = createTRPCRouter({
     login: publicProcedure.input(z.object({ email: z.string().email(), password: z.string() })).mutation(async ({ ctx, input }) => {
@@ -41,33 +39,36 @@ export const adminRouter = createTRPCRouter({
         })
     }),
 
-    createPresignedUrl: adminProcedure.input(z.object({ fileType: z.string() })).mutation(async ({input}) => {
+    createPresignedUrl: adminProcedure.input(z.object({ fileType: z.string() })).mutation(async ({ input }) => {
         const id = nanoid();
-        
+
         const ex = input.fileType.split('/')[1];
         const key = `${id}.${ex}`;
 
-/*         const { url, fields } = await new Promise((resolve, reject) => {
-            s3.createPresignedPost({
-                Bucket: 'restaurant-booking-bucket',
-                Fields: { key },
-                Expires: 60,
-                Conditions: [
-                    ['content-length-range', 0, maxFileSize],
-                    ['starts-with', '$Content-type', 'image/'],
-                ],
-            },
+        /*         const { url, fields } = await new Promise((resolve, reject) => {
+                    s3.createPresignedPost({
+                        Bucket: 'restaurant-booking-bucket',
+                        Fields: { key },
+                        Expires: 60,
+                        Conditions: [
+                            ['content-length-range', 0, maxFileSize],
+                            ['starts-with', '$Content-type', 'image/'],
+                        ],
+                    },
+        
+                        (err, data) => {
+                            if (err) return reject(err)
+                            resolve(data)
+                        }
+                    )
+                }) as any as { url: string, fields: any }
+        
+                return { url, fields, key };*/
+    }),
 
-                (err, data) => {
-                    if (err) return reject(err)
-                    resolve(data)
-                }
-            )
-        }) as any as { url: string, fields: any }
-
-        return { url, fields, key };*/
-    }), 
-
+    /**
+     * CHANGE CATEGORIES HERE AND UNDER H
+     */
     addMenuItem: adminProcedure.input(
         z.object({
             name: z.string(),
@@ -81,7 +82,7 @@ export const adminRouter = createTRPCRouter({
             data: {
                 name,
                 price,
-                description, 
+                description,
                 categories,
             },
         });
@@ -96,9 +97,22 @@ export const adminRouter = createTRPCRouter({
             const { id } = input
             /* await s3.deleteObject({ Bucket: 'restaurant-booking-bucket', Key: imageKey }).promise() */
 
-            //Delete Image from Database
+            //Delete Item from Database
             await ctx.prisma.menuItem.delete({ where: { id } })
 
             return true;
-        })
+        }),
+
+    /**
+     * CUSTOMER RESERVATION CAN ONLY BE DELETD BY ADMIN
+     */
+    deleteReservation: adminProcedure
+        .input(z.object({ id: z.string() }))
+        .mutation(async ({ ctx, input }) => {
+            const { id } = input;
+
+            await ctx.prisma.customer.delete({ where: { id } });
+
+            return true;
+        }),
 });

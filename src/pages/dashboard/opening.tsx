@@ -132,8 +132,10 @@ function opening({ days }: openingProps) {
                         <div className="flex flex-col items-center justify-center">
                             <Calendar
                                 minDate={now}
-                                className='REACT-CALENDAR p-2'
+                                className='p-2 REACT-CALENDAR font-bold'
                                 view='month'
+                                //@ts-ignore
+                                tileDisabled={({ date }) => closedDays.includes(formatISO(date))}
                                 onClickDay={(date) => setSelectedDate(date)}
                                 tileClassName={({ date }) => {
                                     return closedDays?.includes(formatISO(date)) ? 'close-day' : null

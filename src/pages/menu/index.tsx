@@ -19,8 +19,8 @@ function page({ }: menuProps) {
     const [selectedTime, setSelectedTime] = useState<String | null>(null); //selectedTime as ISO string
     const { isFetchedAfterMount } = trpc.menu.checkMenuStatus.useQuery(undefined, {
         onError: () => {
-            //Check for validity of selectedTime failed
-            // Handle error (e.g. route to Homepage)
+            //IF MENU CANNOT BE LOADED PUSH TO HOME
+            router.push('/');
         },
     });
 

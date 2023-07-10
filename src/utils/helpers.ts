@@ -1,8 +1,10 @@
 import { Day } from "@prisma/client";
 import { add, addMinutes, getHours, getMinutes, isBefore, isEqual, parse } from "date-fns";
-import { Seat_Interval, categories, now } from "~/constants";
+import { Seat_Interval, categories, now, seats } from "~/constants";
 
-export const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
+export const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+export const seatingOptions = seats.map((seat) => ({value: seat, label: seat}))
 
 //Options to select from on the menu
 export const selectOptions = categories.map((category) => ({value: category, label: capitalize(category)}));
