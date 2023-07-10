@@ -1,5 +1,5 @@
-//@ts-ignore
-export const sendForm = async (data) => fetch('api/contact', {
+
+export const sendForm = async (data: any) => fetch('api/contact', {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -11,8 +11,8 @@ export const sendForm = async (data) => fetch('api/contact', {
     return res.json();
 });
 
-//@ts-ignore
-export const sendBookingForm = async (data) => fetch('api/contact', {
+
+export const sendBookingForm = async (data: any) => fetch('api/contact', {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
