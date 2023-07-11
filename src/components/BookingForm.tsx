@@ -57,27 +57,15 @@ function BookingForm({ selectedTime }: any | string) {
      * after successful submit user is pushed to Home
      */
 
-    function time(input: any) {
-        setInput((prev) => ({ ...prev, selectedTime: input }));
-    };
-
     const data = {
         name: input.name,
         surname: input.surname,
         email: input.email,
         phone: input.phone,
         seats: input.seats,
-        selectedTime: input.selectedTime,
+        selectedTime: selectedTime,
         message: input.message,
         sentAt: input.sentAt,
-    }
-
-    console.log("DATA:", data);
-    
-    
-    async function formClick() {
-        time(selectedTime);
-        onSubmit;
     };
 
     const onSubmit = async (e: any) => {
@@ -221,14 +209,14 @@ function BookingForm({ selectedTime }: any | string) {
                         className="m-1 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"
                         type="submit"
                         value="Send"
-                        onClick={formClick}
+                        onClick={onSubmit}
                         disabled={!input.name || !input.surname || !input.email || !input.seats}
                     />
                     : <input
                         className="flex items-center h-fit border-2 border-[#FFA500] py-4 px-6 bg-red gap-[12px] cursor-progress"
                         type="submit"
                         value="Sending..."
-                        onClick={formClick}
+                        onClick={onSubmit}
                     />
                 }
 
