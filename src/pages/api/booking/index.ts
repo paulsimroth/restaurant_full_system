@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { mailOptions, transporter } from '~/lib/nodemailer';
+import { format, parseISO } from "date-fns";
 
 /**
  * handler for sending booking form filled out during booking
@@ -22,6 +23,9 @@ const handler = async (
             return res.status(400).json({ message: 'Bad Request' })
         };
 
+        const day = format(parseISO(data.selectedTime), 'MMM do, yyyy');
+        const time = format(parseISO(data.selectedTime), 'kk:mm')
+
         try {
             await transporter.sendMail({
                 ...mailOptions,
@@ -33,8 +37,8 @@ const handler = async (
                     <h2>EMAIL: ${data.email}</h2>
                     <h2>TEL.: ${data.phone}</h2>
                     <br />
-                    <h2>RESERVED SEATS: ${data.seats.label}</h2>
-                    <h2>RESERVED TIME: ${data.selectedTime}</h2>
+                    <h2>RESERVED SEATS: ${data.seats.value}</h2>
+                    <h2>RESERVED TIME: ${day} at ${time}</h2>
                     <br />
                     <p>Additional message:${data.message}</p>
                     <br />
