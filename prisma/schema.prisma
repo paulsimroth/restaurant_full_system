@@ -44,11 +44,14 @@ model ClosedDay {
 
 //Model of a customer
 model Customer {
-    id      String   @id @default(cuid()) @map("_id")
-    name    String
-    surname String
-    phone   String
-    email   String
-    seats   Int
-    date    DateTime
+    id        String   @id @default(cuid()) @map("_id")
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    name      String
+    surname   String
+    phone     String
+    email     String
+    seats     Int
+    message   String
+    date      String
 }

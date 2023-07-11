@@ -25,7 +25,7 @@ const handler = async (
         };
 
         const day = format(parseISO(data.selectedTime), 'do MMM yyyy' , {locale: de});
-        const time = format(parseISO(data.selectedTime), 'kk:mm' , {locale: de})
+        const time = format(parseISO(data.selectedTime), 'kk:mm' , {locale: de});
 
         try {
             await transporter.sendMail({

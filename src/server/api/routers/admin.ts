@@ -104,7 +104,7 @@ export const adminRouter = createTRPCRouter({
         }),
 
     /**
-     * CUSTOMER RESERVATION CAN ONLY BE DELETD BY ADMIN
+     * CUSTOMER RESERVATION CAN ONLY BE DELETED BY ADMIN
      */
     deleteReservation: adminProcedure
         .input(z.object({ id: z.string() }))
@@ -114,5 +114,56 @@ export const adminRouter = createTRPCRouter({
             await ctx.prisma.customer.delete({ where: { id } });
 
             return true;
+        }),
+
+
+    /**
+     * @function bookReservation does the same as @function bookTable in @file table.ts but as a admin only function for editing reservations in the backend
+     */
+
+    bookReservation: adminProcedure
+        .input(z.object({
+            name: z.string(),
+            surname: z.string(),
+            phone: z.string(),
+            email: z.string(),
+            seats: z.number(),
+            message: z.string(),
+            date: z.string()
+        }))
+        .mutation(async ({ ctx, input }) => {
+            const { name, surname, phone, email, seats, message, date } = input
+            const menuItem = await ctx.prisma.customer.create({
+                data: {
+                    name,
+                    surname,
+                    phone,
+                    email,
+                    seats,
+                    message,
+                    date,
+                },
+            });
+
+            return menuItem;
+        }),
+
+    /**
+     * @function getReservations shows the cuurent reservations to the admin
+     */
+    getReservations: adminProcedure
+        .query(async ({ ctx }) => {
+            const customers = ctx.prisma.customer.findMany()
+
+            /*
+            * getting individual bookings from database
+            */
+            const bookings = await Promise.all(
+                (await customers).map(async (customer) => ({
+                    ...customer,
+                }))
+            );
+
+            return bookings;
         }),
 });

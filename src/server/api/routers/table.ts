@@ -13,10 +13,11 @@ export const tableRouter = createTRPCRouter({
             phone: z.string(),
             email: z.string(),
             seats: z.number(),
+            message: z.string(),
             date: z.string()
         }))
         .mutation(async ({ ctx, input }) => {
-            const { name, surname, phone, email, seats, date } = input
+            const { name, surname, phone, email, seats, message, date } = input
             const menuItem = await ctx.prisma.customer.create({
                 data: {
                     name,
@@ -24,6 +25,7 @@ export const tableRouter = createTRPCRouter({
                     phone,
                     email,
                     seats,
+                    message,
                     date
                 },
             });

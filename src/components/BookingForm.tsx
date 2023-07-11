@@ -10,6 +10,7 @@ import { seatingOptions } from "~/utils/helpers";
 import { MultiValue } from "react-select";
 import { sendBookingForm } from "~/lib/api";
 import { de } from "date-fns/locale";
+import { trpc } from "~/utils/trpc";
 
 const DynamicSelect = dynamic(() => import("react-select"), { ssr: false });
 
@@ -18,7 +19,7 @@ type Input = {
     surname: string
     email: string
     phone: string
-    seats: MultiValue<{ value: number | any; label: number | any }>
+    seats: MultiValue<{ value: number; label: number }>
     selectedTime: string
     message: string
     sentAt: Date
@@ -44,9 +45,13 @@ function BookingForm({ selectedTime }: any | string) {
 
     const router = useRouter();
 
+    //GENERAL STATE FOR UI AND NODEMAILER
     const [input, setInput] = useState<Input>(initValues);
     const [bookingProcessing, setBookingProcessing] = useState<Boolean>(false);
     const [bookingError, setBookingError] = useState<Boolean>(false);
+
+    //tRPC
+    const { mutateAsync: addReservation } = trpc.table.bookTable.useMutation();
 
     /**
      * SUBMITTING FORM TO NODEMAILER
@@ -68,6 +73,29 @@ function BookingForm({ selectedTime }: any | string) {
         message: input.message,
         sentAt: input.sentAt,
     };
+    /*     id        String   @id @default(cuid()) @map("_id")
+        createdAt DateTime @default(now())
+        updatedAt DateTime @updatedAt
+        name      String
+        surname   String
+        phone     String
+        email     String
+        seats     Int
+        message   String
+        date      String */
+
+    function reservationToDb() {
+        addReservation({
+            name: input.name,
+            surname: input.surname,
+            phone: input.phone,
+            email: input.email,
+            //@ts-ignore
+            seats: input.seats,
+            date: selectedTime,
+            message: input.message,
+        });
+    };
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
@@ -79,6 +107,7 @@ function BookingForm({ selectedTime }: any | string) {
 
         try {
             await sendBookingForm(data);
+            await reservationToDb();
             setBookingProcessing(false);
             setBookingError(false);
             setInput(initValues);
@@ -97,15 +126,15 @@ function BookingForm({ selectedTime }: any | string) {
         <>
             <div className="flex flex-col items-center justify-center">
                 <div className="flex flex-row items-start justify-start">
-                <HiArrowLeft
-                    className='cursor-pointer fill-[#808080] self-center p-1 text-4xl hover:bg-[#808080] hover:fill-white duration-300 rounded-full'
-                    onClick={() => router.push('/booking')}
-                />
-                <h2 className='flex items-center gap-4 text-3xl font-bold tracking-tight text-gray-900 leading-9'>
-                    Fill out the details!
-                </h2>
+                    <HiArrowLeft
+                        className='cursor-pointer fill-[#808080] self-center p-1 text-4xl hover:bg-[#808080] hover:fill-white duration-300 rounded-full'
+                        onClick={() => router.push('/booking')}
+                    />
+                    <h2 className='flex items-center gap-4 text-3xl font-bold tracking-tight text-gray-900 leading-9'>
+                        Fill out the details!
+                    </h2>
                 </div>
-                <p className="p-1 text-xl"><strong>Your reservation details: {format(parseISO(selectedTime), 'do MMM yyyy' , {locale: de})} at {format(parseISO(selectedTime), 'kk:mm' , {locale: de})}</strong></p>
+                <p className="p-1 text-xl"><strong>Your reservation details: {format(parseISO(selectedTime), 'do MMM yyyy', { locale: de })} at {format(parseISO(selectedTime), 'kk:mm', { locale: de })}</strong></p>
             </div>
             <form>
 
@@ -186,7 +215,7 @@ function BookingForm({ selectedTime }: any | string) {
                             name="seats"
                             value={input.seats}
                             //@ts-ignore
-                            onChange={(e) => setInput((prev) => ({ ...prev, seats: e }))}
+                            onChange={(e) => setInput((prev) => ({ ...prev, seats: e.value }))}
                             required
                             options={seatingOptions}
                         />

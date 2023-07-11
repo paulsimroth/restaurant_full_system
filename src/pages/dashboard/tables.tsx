@@ -1,9 +1,24 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import Link from 'next/link'
-import React from 'react'
+'use client'
+import Head from 'next/head';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
+import { trpc } from "~/utils/trpc";
+import { format, parseISO } from "date-fns";
+import { de } from "date-fns/locale";
 
 function tables() {
+
+  //tRPC
+  const { mutateAsync: addItem } = trpc.admin.bookReservation.useMutation();
+  const { data: reservations, refetch } = trpc.admin.getReservations.useQuery();
+  const { mutateAsync: deleteReservation } = trpc.admin.deleteReservation.useMutation();
+
+  const handleDelete = async (id: string) => {
+    await deleteReservation({ id })
+    refetch()
+  };
+
   return (
     <>
       <Head>
@@ -41,6 +56,29 @@ function tables() {
       </div>
       <div className="flex flex-col items-center justify-around p-24 text-[#2E3A59]">
         <h1 className='mt-8 text-[50px] font-bold'>Bookings</h1>
+        <div>
+          <div>
+            <p className='text-lg font-bold m-2'>Your Reservations:</p>
+            <div className='mt-6 mb-12 grid grid-cols-7 gap-8'>
+              {reservations?.map((reservation) => (
+                <div key={reservation.id} className="m-1 p-1 border border-black ">
+                  <p className="font-bold">{reservation.name} {reservation.surname}</p>
+                  <p>email: {reservation.email}</p>
+                  <p>phone: {reservation.phone}</p>
+                  <p>Day: {format(parseISO(reservation.date), 'do MMM yyyy', { locale: de })}</p>
+                  <p>Time: {format(parseISO(reservation.date), 'kk:mm' , {locale: de})}</p>
+                  <p>persons: {reservation.seats}</p>
+                  <p>message: {reservation.message}</p>
+                  <button
+                    onClick={() => handleDelete(reservation.id)}
+                    className='text-xs text-red-500 border-red-500 border-2 p-1 rounded-md hover:scale-110 duration-300 hover:text-white hover:bg-red-500'>
+                    Delete
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </>
   )

@@ -1,3 +1,4 @@
+'use client'
 import { Day } from "@prisma/client";
 import Head from "next/head";
 import { prisma } from "~/server/db";
@@ -189,7 +190,7 @@ function opening({ days }: openingProps) {
 
 export async function getServerSideProps() {
     const days = await prisma.day.findMany();
-    if (!(days.length === 7)) throw new Error('Insert all days inot database');
+    if (!(days.length === 7)) throw new Error('Insert all days into database');
     return { props: { days } };
 }
 
