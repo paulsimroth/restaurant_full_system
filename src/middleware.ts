@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyAuth } from "./lib/auth";
-import { error } from "console";
 
 export async function middleware(req: NextRequest) {
     //get user token

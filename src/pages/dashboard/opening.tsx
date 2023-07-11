@@ -1,8 +1,7 @@
 import { Day } from "@prisma/client";
 import Head from "next/head";
-import Navbar from "~/sections/Navbar";
 import { prisma } from "~/server/db";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { trpc } from "~/utils/trpc";
 import { formatISO } from "date-fns";
 import toast, { Toaster } from 'react-hot-toast'

@@ -1,15 +1,12 @@
-import Head from "next/head";
-import { useEffect, useState } from "react";
-import Navbar from "~/sections/Navbar";
-import { selectOptions } from "~/utils/helpers";
-import { MultiValue } from "react-select/dist/declarations/src";
-import Select from "react-select";
 import dynamic from "next/dynamic";
+import Head from "next/head";
 import Image from "next/image";
-import { maxFileSize } from "~/constants";
+import Link from "next/link";
+import { useState } from "react";
+import { MultiValue } from "react-select/dist/declarations/src";
+import { selectOptions } from "~/utils/helpers";
 import { trpc } from "~/utils/trpc";
 import { Categories } from "~/utils/types";
-import Link from "next/link";
 
 const DynamicSelect = dynamic(() => import("react-select"), { ssr: false });
 

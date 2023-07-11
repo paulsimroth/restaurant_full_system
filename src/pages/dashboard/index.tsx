@@ -1,8 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import Footer from "~/sections/Footer";
-import Navbar from "~/sections/Navbar";
 import { trpc } from "~/utils/trpc";
 
 function page() {

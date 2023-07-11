@@ -1,12 +1,11 @@
 'use client'
-import Navbar from '../../sections/Navbar';
-import Footer from '../../sections/Footer';
-import { HiLockClosed } from "react-icons/hi"
-import { ChangeEvent, useState } from 'react';
 import Head from 'next/head';
-import { trpc } from '../../utils/trpc';
 import { useRouter } from 'next/router';
-import { log } from 'console';
+import { ChangeEvent, useState } from 'react';
+import { HiLockClosed } from "react-icons/hi";
+import Footer from '../../sections/Footer';
+import Navbar from '../../sections/Navbar';
+import { trpc } from '../../utils/trpc';
 
 function page() {
 
