@@ -4,6 +4,13 @@ import { useState } from "react";
 import Image from "next/image";
 import { sendForm } from "~/lib/api";
 
+type Input = {
+    user_name: string
+    user_email: string
+    subject: string
+    message: string
+}
+
 const initValues = {
     user_name: "",
     user_email: "",

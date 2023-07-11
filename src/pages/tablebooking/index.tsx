@@ -2,7 +2,7 @@
 import { parseISO } from "date-fns";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState, useEffect, FC } from "react";
+import { useState, useEffect} from "react";
 import BookingForm from "~/components/BookingForm";
 import Spinner from "~/components/Spinner";
 import { now } from "~/constants";
@@ -21,6 +21,7 @@ function page({ }: menuProps) {
         onError: () => {
             //Check for validity of selectedTime failed
             // Handle error (e.g. route to Homepage)
+            router.push('/')
         },
     });
 

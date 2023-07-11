@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from "react";
-import { sendBookingForm, sendForm } from "../lib/api";
 import Image from "next/image";
 import { format, parseISO } from "date-fns";
 import { HiArrowLeft } from "react-icons/hi";
@@ -9,6 +8,7 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { seatingOptions } from "~/utils/helpers";
 import { MultiValue } from "react-select";
+import { sendBookingForm } from "~/lib/api";
 
 const DynamicSelect = dynamic(() => import("react-select"), { ssr: false });
 
@@ -20,6 +20,7 @@ type Input = {
     seats: MultiValue<{ value: number | any; label: number | any }>
     selectedTime: string
     message: string
+    sentAt: Date
 }
 
 /**
@@ -33,58 +34,88 @@ const initValues = {
     seats: [],
     selectedTime: "",
     message: "",
+    sentAt: new Date()
 };
 
-const initFormState = { values: initValues };
+/* const initFormState = { values: initValues }; */
 
-function BookingForm({ selectedTime }: any) {
+function BookingForm({ selectedTime }: any | string) {
 
     const router = useRouter();
 
     const [input, setInput] = useState<Input>(initValues);
-    const [processing, setProcessing] = useState(false);
-    const [msgError, setMsgError] = useState(false);
+    const [bookingProcessing, setBookingProcessing] = useState<Boolean>(false);
+    const [bookingError, setBookingError] = useState<Boolean>(false);
 
-    //SELECTED TIME IS SAVED TO STATE
-    function time(input: string) {
-        setInput((prev) => ({ ...prev, selectedTime: input }))
+    /**
+     * SUBMITTING FORM TO NODEMAILER
+     * @function time 
+     * @function setProcessing changes appearance of submit button
+     * @function setMsgError sets error state to display error message in case of failure to submit
+     * @function setInput sets form inputs to initValues if submit is successful
+     * 
+     * after successful submit user is pushed to Home
+     */
+
+    function time(input: any) {
+        setInput((prev) => ({ ...prev, selectedTime: input }));
     };
 
-    time(selectedTime);
+    const data = {
+        name: input.name,
+        surname: input.surname,
+        email: input.email,
+        phone: input.phone,
+        seats: input.seats,
+        selectedTime: input.selectedTime,
+        message: input.message,
+        sentAt: input.sentAt,
+    }
 
+    console.log("DATA:", data);
+    
+    
+    async function formClick() {
+        time(selectedTime);
+        onSubmit;
+    };
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
-        setProcessing(true);
-        setMsgError(false);
+        setBookingProcessing(true);
+        setBookingError(false);
         setInput((prev) => ({
             ...prev,
         }))
+
         try {
-            await sendBookingForm(input);
-            setProcessing(false);
-            setMsgError(false);
+            await sendBookingForm(data);
+            setBookingProcessing(false);
+            setBookingError(false);
             setInput(initValues);
-            router.push('/');
+            // router.push('/');
         } catch (error) {
-            setMsgError(true);
+            setBookingError(true);
+            setBookingProcessing(false);
             setInput((prev) => ({
                 ...prev,
                 error,
-            }))
+            }));
         };
     };
 
-
     return (
         <>
-            <h2 className='flex items-center gap-4 text-2xl font-bold tracking-tight text-gray-900'>
+            <div className="flex flex-row items-end justify-end">
                 <HiArrowLeft
-                    className='cursor-pointer'
-                    onClick={() => router.push('/')}
+                    className='cursor-pointer fill-[#808080] self-center text-4xl'
+                    onClick={() => router.push('/booking')}
                 />
-                Fill out the details for {format(parseISO(selectedTime), 'MMM do, yyyy')}
-            </h2>
+                <h2 className='flex items-center gap-4 text-3xl font-bold tracking-tight text-gray-900 leading-9'>
+                    Fill out the details!
+                </h2>
+                <p><strong>Your reservation details: {format(parseISO(selectedTime), 'MMM do, yyyy')} at {format(parseISO(selectedTime), 'kk:mm')}</strong></p>
+            </div>
             <form>
 
                 <div className="flex flex-col flex-wrap items-center justify-center">
@@ -181,30 +212,29 @@ function BookingForm({ selectedTime }: any) {
                             placeholder="Your Message"
                             value={input.message}
                             onChange={(e) => setInput((prev) => ({ ...prev, message: e.target.value }))}
-                            required
                         />
                     </div>
                 </div>
 
-                {!processing
+                {!bookingProcessing
                     ? <input
                         className="m-1 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"
                         type="submit"
-                        value="Send Reservation"
-                        onClick={onSubmit}
+                        value="Send"
+                        onClick={formClick}
                         disabled={!input.name || !input.surname || !input.email || !input.seats}
                     />
                     : <input
                         className="flex items-center h-fit border-2 border-[#FFA500] py-4 px-6 bg-red gap-[12px] cursor-progress"
                         type="submit"
                         value="Sending..."
-                        onClick={onSubmit}
+                        onClick={formClick}
                     />
                 }
 
-                {msgError &&
+                {bookingError &&
                     <div className="p-6 m-4 bg-[#ff0000] rounded-md flex items-center h-fit w-fit">
-                        <p className="font-extrabold text-[16px] text-white">ERROR, Failed to send!</p>
+                        <p className="font-extrabold text-[16px] text-white">ERROR, Failed to send reservation!</p>
                     </div>
                 }
             </form >
