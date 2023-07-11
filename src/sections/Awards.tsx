@@ -3,7 +3,7 @@ import Image from "next/image";
 import { awards } from '../constants';
 import SubHeading from "~/components/SubHeading";
 
-function AwardCard({ award: { imgUrl, title, subtitle }, key }: any) {
+function AwardCard({ award: { imgUrl, title, subtitle , key} }: any) {
   return (
     <div key={key} className="min-w-[230px] flex flex-row flex-1 m-4 items-center justify-start">
       <Image

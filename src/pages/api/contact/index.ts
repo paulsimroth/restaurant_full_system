@@ -1,7 +1,13 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { mailOptions, transporter } from "../../../lib/nodemailer";
+import { mailOptions, transporter } from '~/lib/nodemailer';
 
+/**
+ * handler for sending booking form filled out during booking
+ * @param req POST request to Nodemailer to send booking form to specified email address
+ * @param res STATUS of request
+ * @returns @param res
+ */
 
 const handler = async (
     req: NextApiRequest,

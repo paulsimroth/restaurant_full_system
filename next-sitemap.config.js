@@ -2,17 +2,17 @@
 
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-    siteUrl: process.env.SITE_URL || 'https://example.com',
-    generateRobotsTxt: true, // (optional)
-    outDir: "./out",
+  siteUrl: process.env.SITE_URL || 'https://example.com',
+  generateRobotsTxt: true, // (optional)
+  outDir: "./out",
 
-    robotsTxtOptions: {
-        policies: [
-          {
-            userAgent: '*',
-            allow: '/',
-            disallow: ['/imprint', '/data']
-          },
-        ],
-    }
+  robotsTxtOptions: {
+    policies: [
+      {
+        userAgent: '*',
+        allow: '/',
+        disallow: ['/imprint', '/data', 'login', 'dashboard']
+      },
+    ],
+  }
 };

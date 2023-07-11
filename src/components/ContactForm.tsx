@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from "react";
-import { sendForm } from "../lib/api";
 import Image from "next/image";
+import { sendForm } from "~/lib/api";
 
 const initValues = {
     user_name: "",
@@ -20,8 +20,8 @@ const initFormState = { values: initValues };
 function ContactForm() {
 
     const [formState, setFormState] = useState(initFormState);
-    const [processing, setProcessing] = useState(false);
-    const [msgError, setMsgError] = useState(false);
+    const [processing, setProcessing] = useState<Boolean>(false);
+    const [msgError, setMsgError] = useState<Boolean>(false);
 
     const { values } = formState;
 
@@ -40,6 +40,7 @@ function ContactForm() {
         setFormState((prev) => ({
             ...prev,
         }))
+        
         try {
             await sendForm(values);
             setProcessing(false);
@@ -47,10 +48,11 @@ function ContactForm() {
             setFormState(initFormState);
         } catch (error) {
             setMsgError(true);
+            setProcessing(false);
             setFormState((prev) => ({
                 ...prev,
                 error,
-            }))
+            }));
         };
     };
 
@@ -85,7 +87,7 @@ function ContactForm() {
                             className='w-full h-14 p-3 my-2 md:m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331]'
                             name="user_email"
                             type="email"
-                            placeholder="example@mail.com"
+                            placeholder="example@email.com"
                             value={values.user_email}
                             onChange={handleChange}
                             required

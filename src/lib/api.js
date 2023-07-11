@@ -1,5 +1,5 @@
-
-export const sendForm = async (data: any) => fetch('api/contact', {
+//@ts-ignore
+export const sendForm = async (data) => fetch('api/contact', {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -11,8 +11,8 @@ export const sendForm = async (data: any) => fetch('api/contact', {
     return res.json();
 });
 
-
-export const sendBookingForm = async (data: any) => fetch('api/contact', {
+//@ts-ignore
+export const sendBookingForm = async (data) => fetch('api/booking', {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -20,6 +20,6 @@ export const sendBookingForm = async (data: any) => fetch('api/contact', {
         Accept: "application/json",
     },
 }).then((res) => {
-    if (!res.ok) throw new Error("Failed to submit message");
+    if (!res.ok) throw new Error("Failed to submit booking");
     return res.json();
 });

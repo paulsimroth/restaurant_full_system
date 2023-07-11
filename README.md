@@ -1,6 +1,7 @@
 # RESTAURANT FULLSTACK APP
 
 This is an All-in-one solution for restaurants in need of a simple website with an integrated admin dashboard.
+The project uses tRPC to handle API communication and Prisma for connecting to a MongoDB Atlas database.
 
 ## Development
 
@@ -24,7 +25,7 @@ Follow these steps to start your Dev environment
 - [Next.js](https://nextjs.org/) (Frontend Framework)
 - [Tailwindcss](https://tailwindcss.com/) (Styling)
 - [Nodemailer](https://nodemailer.com/about/) (Email Form Submission)
-- [Prisma]() ()
+- [Prisma](https://www.prisma.io/) ()
 - [MongoDB](https://www.mongodb.com/) (Database)
 - [AWS-S3](https://aws.amazon.com/de/pm/serv-s3/?trk=518a7bef-5b4f-4462-ad55-80e5c177f12b&sc_channel=ps&ef_id=CjwKCAjwqZSlBhBwEiwAfoZUIAc5fFQfdGLnDxLeGTQNPaUI2keVwI0Ag5PzVlAXAG_unEYNfqiJjRoCSBcQAvD_BwE:G:s&s_kwcid=AL!4422!3!645186213484!e!!g!!aws%20s3!19579892800!143689755565) (Image Cloud Storage)
 - [tRPC](https://trpc.io/) (API Handling)

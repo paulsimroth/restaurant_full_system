@@ -1,7 +1,15 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { mailOptions, transporter } from "../../../lib/nodemailer";
+import { mailOptions, transporter } from '~/lib/nodemailer';
 
+/**
+ * handler for sending booking form filled out during booking
+ * @param req POST request to Nodemailer to send booking form to specified email address
+ * @param res STATUS of request
+ * @returns @param res
+ */
+
+const date = new Date();
 
 const handler = async (
     req: NextApiRequest,
@@ -10,20 +18,27 @@ const handler = async (
 
     if (req.method === "POST") {
         const data = req.body;
-        if (!data.user_name || !data.user_email || !data.subject || !data.message) {
+        if (!data.name || !data.surname || !data.email || !data.phone || !data.seats || !data.selectedTime) {
             return res.status(400).json({ message: 'Bad Request' })
         };
 
         try {
             await transporter.sendMail({
                 ...mailOptions,
-                subject: data.subject,
+                subject: `NEW BOOKING`,
                 text: "This is a test string",
                 html: `
-                    <h1>TABLE BOOKING FROM ${data.user_name} </h1>
-                    <h2>EMAIL: ${data.user_email}</h2>
-                    <h2>SUBJECT: ${data.subject}</h2>
-                    <p>${data.message}</p>
+                    <h1>TABLE BOOKING FROM ${data.name} ${data.surname} </h1>
+                    <br />
+                    <h2>EMAIL: ${data.email}</h2>
+                    <h2>TEL.: ${data.phone}</h2>
+                    <br />
+                    <h2>RESERVED SEATS: ${data.seats}</h2>
+                    <h2>RESERVED TIME: ${data.selectedTime}</h2>
+                    <br />
+                    <p>Additional message:${data.message}</p>
+                    <br />
+                    <p>message sent: ${data.sentAt}</p>
                 `
             });
 

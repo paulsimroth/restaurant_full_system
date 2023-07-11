@@ -53,7 +53,7 @@ function Navbar() {
               <li className="md:text-[20px] hover:scale-110 duration-300"><a href="/#about">About</a></li>
               <li className="md:text-[20px] hover:scale-110 duration-300"><a href="/menu">Menu</a></li>
               <li className="md:text-[20px] hover:scale-110 duration-300"><a href="/#awards">Awards</a></li>
-              <li className="md:text-[20px] flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"><a href="/#contact">Contact</a></li>
+              <li className="md:text-[20px] flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"><a href="//#contact">Contact</a></li>
               <li className="md:text-[20px] flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"><a href="/">Book a Table</a></li>
             </ul>
           </div>

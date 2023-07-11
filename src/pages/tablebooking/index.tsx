@@ -1,4 +1,4 @@
-/* 'use client'
+'use client'
 import { parseISO } from "date-fns";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -66,14 +66,4 @@ function page({ }: menuProps) {
     )
 };
 
-export default page; */
-
-import React from 'react'
-
-function contact() {
-  return (
-    <div>contact</div>
-  )
-}
-
-export default contact
+export default page;
