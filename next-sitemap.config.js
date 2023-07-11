@@ -6,6 +6,9 @@ module.exports = {
   generateRobotsTxt: true, // (optional)
   outDir: "./out",
 
+  /**
+   * @param disallow set all routes which should not be indexed
+   */
   robotsTxtOptions: {
     policies: [
       {

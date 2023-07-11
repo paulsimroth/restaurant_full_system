@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 import { seatingOptions } from "~/utils/helpers";
 import { MultiValue } from "react-select";
 import { sendBookingForm } from "~/lib/api";
+import { de } from "date-fns/locale";
 
 const DynamicSelect = dynamic(() => import("react-select"), { ssr: false });
 
@@ -94,15 +95,17 @@ function BookingForm({ selectedTime }: any | string) {
 
     return (
         <>
-            <div className="flex flex-row items-end justify-end">
+            <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-row items-start justify-start">
                 <HiArrowLeft
-                    className='cursor-pointer fill-[#808080] self-center text-4xl'
+                    className='cursor-pointer fill-[#808080] self-center p-1 text-4xl hover:bg-[#808080] hover:fill-white duration-300 rounded-full'
                     onClick={() => router.push('/booking')}
                 />
                 <h2 className='flex items-center gap-4 text-3xl font-bold tracking-tight text-gray-900 leading-9'>
                     Fill out the details!
                 </h2>
-                <p><strong>Your reservation details: {format(parseISO(selectedTime), 'MMM do, yyyy')} at {format(parseISO(selectedTime), 'kk:mm')}</strong></p>
+                </div>
+                <p className="p-1 text-xl"><strong>Your reservation details: {format(parseISO(selectedTime), 'do MMM yyyy' , {locale: de})} at {format(parseISO(selectedTime), 'kk:mm' , {locale: de})}</strong></p>
             </div>
             <form>
 
