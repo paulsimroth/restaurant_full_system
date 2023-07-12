@@ -53,6 +53,8 @@ function tables() {
 
   });
 
+  const index = filterTablesByDate?.length;
+
   return (
     <>
       <Head>
@@ -91,21 +93,37 @@ function tables() {
       <div className="flex flex-col items-center justify-around p-24 text-[#2E3A59]">
         <h1 className='mt-8 text-[50px] font-bold'>Bookings</h1>
         <div>
+          <Link href="/booking" className="m-2 flex items-center h-fit w-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300">
+            MAKE RESERVATION
+          </Link>
           <div>
-            <p className='text-lg font-bold m-2'>Your Reservations for <strong>{format(parseISO(selectedDay), 'do MMM yyyy', { locale: de })}</strong></p>
             <div className='m-2'>
-              <button className='m-2 p-1 border border-black hover:scale-110 duration-300' onClick={decreaseDay}>
-                -1 Day
-              </button>
-              <button className='m-2 p-1 border border-black hover:scale-110 duration-300' onClick={setToday}>
-                TODAY
-              </button>
-              <button className='m-2 p-1 border border-black hover:scale-110 duration-300' onClick={increaseDay}>
-                +1 Day
-              </button>
-            </div>
-            <div className='mt-6 p-6 mb-12 w-[100vw] flex flex-row wrap items-start flex-start'>
+              <p className='text-lg font-bold m-2'>Reservations for <strong>{format(parseISO(selectedDay), 'do MMM yyyy', { locale: de })}</strong></p>
 
+              <div className='flex flex-row'>
+                <button
+                  className="m-2 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"
+                  onClick={decreaseDay}
+                >
+                  -1 Day
+                </button>
+                <button
+                  className="m-2 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"
+                  onClick={setToday}
+                >
+                  TODAY
+                </button>
+                <button
+                  className="m-2 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"
+                  onClick={increaseDay}
+                >
+                  +1 Day
+                </button>
+              </div>
+            </div>
+            <p className='text-lg font-bold m-2'>Total reservations: {index}</p>
+            <div className='mt-6 p-6 mb-12 w-[100vw] flex flex-row wrap items-start flex-start'>
+              
               {filterTablesByDate?.map((reservation) => (
                 <div key={reservation.id} className="m-1 p-1 border h-fit w-fit border-black">
                   <p className="font-bold">NAME: {reservation.name} {reservation.surname}</p>
@@ -118,7 +136,7 @@ function tables() {
                   <div className='w-full bg-black h-[2px]' />
                   <button
                     onClick={() => handleDelete(reservation.id)}
-                    className='text-xs text-red-500 border-red-500 border-2 p-1 rounded-md hover:scale-110 duration-300 hover:text-white hover:bg-red-500'>
+                    className='text-xs text-red-500 border-red-500 border-2 p-1 m-1 rounded-md hover:scale-110 duration-300 hover:text-white hover:bg-red-500'>
                     Delete
                   </button>
                 </div>
