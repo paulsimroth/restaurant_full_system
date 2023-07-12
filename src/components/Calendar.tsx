@@ -59,7 +59,7 @@ function Calendar<FC> ({ days, closedDays }: CalenderProps) {
       ) : (
 
         /** 
-         * Calendar to choose Day == @param jusDate
+         * Calendar to choose Day == @param justDate
         */
 
         <ReactCalendar

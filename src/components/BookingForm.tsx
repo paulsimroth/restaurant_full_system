@@ -39,8 +39,6 @@ const initValues = {
     sentAt: new Date()
 };
 
-/* const initFormState = { values: initValues }; */
-
 function BookingForm({ selectedTime }: any | string) {
 
     const router = useRouter();
@@ -73,16 +71,6 @@ function BookingForm({ selectedTime }: any | string) {
         message: input.message,
         sentAt: input.sentAt,
     };
-    /*     id        String   @id @default(cuid()) @map("_id")
-        createdAt DateTime @default(now())
-        updatedAt DateTime @updatedAt
-        name      String
-        surname   String
-        phone     String
-        email     String
-        seats     Int
-        message   String
-        date      String */
 
     function reservationToDb() {
         addReservation({

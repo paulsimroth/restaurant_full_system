@@ -2,12 +2,35 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import { trpc } from "~/utils/trpc";
-import { format, parseISO } from "date-fns";
+import { format, parseISO, formatDistance, subDays, addDays, formatISO } from "date-fns";
 import { de } from "date-fns/locale";
+import dynamic from 'next/dynamic';
+import { string } from 'zod';
+import { now } from "~/constants";
+
+const DynamicSelect = dynamic(() => import("react-select"), { ssr: false });
 
 function tables() {
+
+  const initDate = formatISO(now);
+
+  const [selectedDay, setSelectedDay] = useState(initDate);
+
+  function setToday() {
+    setSelectedDay(initDate);
+  }
+
+  function increaseDay() {
+    const date: Date = addDays(parseISO(selectedDay), 1);
+    setSelectedDay(formatISO(date));
+  };
+
+  function decreaseDay() {
+    const date: Date = subDays(parseISO(selectedDay), 1);
+    setSelectedDay(formatISO(date));
+  };
 
   //tRPC
   const { mutateAsync: addItem } = trpc.admin.bookReservation.useMutation();
@@ -18,6 +41,17 @@ function tables() {
     await deleteReservation({ id })
     refetch()
   };
+
+  const filterTablesByDate = reservations?.filter((reservation) => {
+
+    const formatDate = reservation.date.split('T')[0]
+    const formatSelectedDay = selectedDay.split('T')[0]
+
+    if (formatDate === formatSelectedDay) {
+      return reservation;
+    };
+
+  });
 
   return (
     <>
@@ -58,17 +92,30 @@ function tables() {
         <h1 className='mt-8 text-[50px] font-bold'>Bookings</h1>
         <div>
           <div>
-            <p className='text-lg font-bold m-2'>Your Reservations:</p>
-            <div className='mt-6 mb-12 grid grid-cols-7 gap-8'>
-              {reservations?.map((reservation) => (
-                <div key={reservation.id} className="m-1 p-1 border border-black ">
-                  <p className="font-bold">{reservation.name} {reservation.surname}</p>
-                  <p>email: {reservation.email}</p>
-                  <p>phone: {reservation.phone}</p>
-                  <p>Day: {format(parseISO(reservation.date), 'do MMM yyyy', { locale: de })}</p>
-                  <p>Time: {format(parseISO(reservation.date), 'kk:mm' , {locale: de})}</p>
-                  <p>persons: {reservation.seats}</p>
-                  <p>message: {reservation.message}</p>
+            <p className='text-lg font-bold m-2'>Your Reservations for <strong>{format(parseISO(selectedDay), 'do MMM yyyy', { locale: de })}</strong></p>
+            <div className='m-2'>
+              <button className='m-2 p-1 border border-black hover:scale-110 duration-300' onClick={decreaseDay}>
+                -1 Day
+              </button>
+              <button className='m-2 p-1 border border-black hover:scale-110 duration-300' onClick={setToday}>
+                TODAY
+              </button>
+              <button className='m-2 p-1 border border-black hover:scale-110 duration-300' onClick={increaseDay}>
+                +1 Day
+              </button>
+            </div>
+            <div className='mt-6 p-6 mb-12 w-[100vw] flex flex-row wrap items-start flex-start'>
+
+              {filterTablesByDate?.map((reservation) => (
+                <div key={reservation.id} className="m-1 p-1 border h-fit w-fit border-black">
+                  <p className="font-bold">NAME: {reservation.name} {reservation.surname}</p>
+                  <div className='w-full bg-black h-[2px]' />
+                  <p><strong>email:</strong> {reservation.email}</p>
+                  <p><strong>phone:</strong> {reservation.phone}</p>
+                  <p><strong>Time:</strong> {format(parseISO(reservation.date), 'do MMM yyyy', { locale: de })},{format(parseISO(reservation.date), 'kk:mm', { locale: de })}</p>
+                  <p><strong>Seats:</strong> {reservation.seats}</p>
+                  <p><strong>Message:</strong> {reservation.message}</p>
+                  <div className='w-full bg-black h-[2px]' />
                   <button
                     onClick={() => handleDelete(reservation.id)}
                     className='text-xs text-red-500 border-red-500 border-2 p-1 rounded-md hover:scale-110 duration-300 hover:text-white hover:bg-red-500'>
@@ -76,12 +123,13 @@ function tables() {
                   </button>
                 </div>
               ))}
+
             </div>
           </div>
         </div>
       </div>
     </>
   )
-}
+};
 
-export default tables
+export default tables;
