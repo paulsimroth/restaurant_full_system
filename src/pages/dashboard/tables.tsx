@@ -145,11 +145,11 @@ function tables() {
                 <div key={reservation.id} className="m-1 p-1 border h-fit w-fit border-black">
                   <p className="font-bold">NAME: {reservation.name} {reservation.surname}</p>
                   <div className='w-full bg-black h-[2px]' />
-                  <p><strong>email:</strong> {reservation.email}</p>
-                  <p><strong>phone:</strong> {reservation.phone}</p>
-                  <p><strong>Time:</strong> {format(parseISO(reservation.date), 'do MMM yyyy', { locale: de })},{format(parseISO(reservation.date), 'kk:mm', { locale: de })}</p>
-                  <p><strong>Seats:</strong> {reservation.seats}</p>
-                  <p><strong>Message:</strong> {reservation.message}</p>
+                  <p><strong>email: </strong>{reservation.email}</p>
+                  <p><strong>phone: </strong>{reservation.phone}</p>
+                  <p><strong>Time: </strong>{format(parseISO(reservation.date), 'do MMM yyyy', { locale: de })},{format(parseISO(reservation.date), 'kk:mm', { locale: de })}</p>
+                  <p><strong>Seats: </strong>{reservation.seats}</p>
+                  <p className='max-w-[280px]'><strong>Message: </strong>{reservation.message}</p>
                   <div className='w-full bg-black h-[2px]' />
                   <button
                     onClick={() => handleDelete(reservation.id)}
