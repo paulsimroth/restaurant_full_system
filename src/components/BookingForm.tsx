@@ -79,7 +79,7 @@ function BookingForm({ selectedTime }: any | string) {
             phone: input.phone,
             email: input.email,
             //@ts-ignore
-            seats: input.seats,
+            seats: input.seats.value,
             date: selectedTime,
             message: input.message,
         });
@@ -99,7 +99,7 @@ function BookingForm({ selectedTime }: any | string) {
             setBookingProcessing(false);
             setBookingError(false);
             setInput(initValues);
-            // router.push('/');
+            router.push('/');
         } catch (error) {
             setBookingError(true);
             setBookingProcessing(false);
@@ -203,7 +203,7 @@ function BookingForm({ selectedTime }: any | string) {
                             name="seats"
                             value={input.seats}
                             //@ts-ignore
-                            onChange={(e) => setInput((prev) => ({ ...prev, seats: e.value }))}
+                            onChange={(e) => setInput((prev) => ({ ...prev, seats: e }))}
                             required
                             options={seatingOptions}
                         />

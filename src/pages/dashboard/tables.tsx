@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { trpc } from "~/utils/trpc";
-import { format, parseISO, formatDistance, subDays, addDays, formatISO } from "date-fns";
+import { format, parseISO, formatDistance, subDays, addDays, formatISO, compareDesc, compareAsc } from "date-fns";
 import { de } from "date-fns/locale";
 import dynamic from 'next/dynamic';
 import { string } from 'zod';
@@ -42,6 +42,9 @@ function tables() {
     refetch()
   };
 
+  /**
+   * Filters reservations before rendering to only show reservations for the selected date
+   */
   const filterTablesByDate = reservations?.filter((reservation) => {
 
     const formatDate = reservation.date.split('T')[0]
@@ -53,6 +56,20 @@ function tables() {
 
   });
 
+  /**
+   * filteredTablesbyDate will get sorted from earliest to latest booking for the corresponding day
+   */
+  const sortedTables = filterTablesByDate?.sort((a: any, b: any) => {
+    const aDate = new Date(a.date);
+    const bDate = new Date(b.date);
+
+    const aTime = aDate.getTime();
+    const bTime = bDate.getTime();
+
+    return aTime - bTime;
+  });
+
+  // Shows number of reservations for the selected date
   const index = filterTablesByDate?.length;
 
   return (
@@ -122,9 +139,9 @@ function tables() {
               </div>
             </div>
             <p className='text-lg font-bold m-2'>Total reservations: {index}</p>
-            <div className='mt-6 p-6 mb-12 w-[100vw] flex flex-row wrap items-start flex-start'>
-              
-              {filterTablesByDate?.map((reservation) => (
+            <div className='m-6 p-6 mb-12 w-[90vw] h-fit flex flex-row flex-wrap items-start flex-start'>
+
+              {sortedTables?.map((reservation) => (
                 <div key={reservation.id} className="m-1 p-1 border h-fit w-fit border-black">
                   <p className="font-bold">NAME: {reservation.name} {reservation.surname}</p>
                   <div className='w-full bg-black h-[2px]' />
