@@ -50,14 +50,13 @@ function tables({ days, closedDays }: HomeProps) {
   /**
    * SET STATES HERE
    * @param toggle handles visibilty of UpdateReservation
+   * @param editValues ist the currewntly selected reservation
    * @param selectedDay is the currently selected day
    */
   const [toggle, setToggle] = useState<boolean>(initToggle);
   const [editValues, setEditValues] = useState(initValues)
   const [selectedDay, setSelectedDay] = useState<string>(initDate);
 
-  // ID OF ITEM
-  var currentItem = initValues;
 
   /**
    * TOGGLE VISIBILITY OF UpdateReservation
@@ -97,13 +96,10 @@ function tables({ days, closedDays }: HomeProps) {
    */
   useEffect(() => {
     setSelectedDay
-    console.log("useEffect, selectedDay");
   }, [selectedDay]);
 
   useEffect(() => {
     toggleEdit
-    console.log("useEffect, setToggle");
-    console.log("currentItem", currentItem);
   }, [])
 
   /**
