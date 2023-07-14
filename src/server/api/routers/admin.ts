@@ -116,6 +116,34 @@ export const adminRouter = createTRPCRouter({
             return true;
         }),
 
+    updateReservation: adminProcedure
+        .input(z.object({
+            id: z.string(), name: z.string(),
+            surname: z.string(),
+            phone: z.string(),
+            email: z.string(),
+            seats: z.number(),
+            message: z.string(),
+            date: z.string()
+        }))
+        .mutation(async ({ ctx, input }) => {
+            const { id, name, surname, email, phone, date, seats, message } = input;
+
+            await ctx.prisma.customer.update({
+                where: { id }, data: {
+                    name: name,
+                    surname: surname,
+                    phone: phone,
+                    email: email,
+                    seats: seats,
+                    message: message,
+                    date: date
+                }
+            });
+
+            return true;
+        }),
+
 
     /**
      * @function bookReservation does the same as @function bookTable in @file table.ts but as a admin only function for editing reservations in the backend
