@@ -54,7 +54,7 @@ function tables({ days, closedDays }: HomeProps) {
    * @param selectedDay is the currently selected day
    */
   const [toggle, setToggle] = useState<boolean>(initToggle);
-  const [editValues, setEditValues] = useState(initValues)
+  const [editValues, setEditValues] = useState<Input>(initValues)
   const [selectedDay, setSelectedDay] = useState<string>(initDate);
 
 
@@ -70,7 +70,6 @@ function tables({ days, closedDays }: HomeProps) {
   //tRPC
   const { mutateAsync: addItem } = trpc.admin.bookReservation.useMutation();
   const { data: reservations, refetch } = trpc.admin.getReservations.useQuery();
-  const { mutateAsync: updateReservation } = trpc.admin.updateReservation.useMutation();
   const { mutateAsync: deleteReservation } = trpc.admin.deleteReservation.useMutation();
 
   /**

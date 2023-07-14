@@ -48,7 +48,6 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
         date: data.date,
         message: data.message,
     };
-    console.log('initValues', initValues);
 
     /**
      * SET STATES
@@ -75,8 +74,6 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
         message: input.message,
     };
 
-    console.log('formData', formData);
-
     //tRPC
     const { mutateAsync: updateReservation } = trpc.admin.updateReservation.useMutation();
     const { data: reservations, refetch } = trpc.admin.getReservations.useQuery();
@@ -96,12 +93,10 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
 
     useEffect(() => {
         toggleCalendar
-        console.log("useEffect, toggleCalendar");
     }, []);
 
     useEffect(() => {
         input
-        console.log("useEffect, setInput");
     }, []);
 
     useEffect(() => {
@@ -112,11 +107,11 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
         setDate
     }, [date])
 
-    //@ts-ignore
     const times = date.justDate && getOpeningTimes(date.justDate, days);
 
     /**
-     * UPDATE RESERVATION AND CLOSE POPUP
+     * UPDATE RESERVATION IN DATABASE
+     * THE REFETCH AND CLOSE POPUP
      */
     async function handleUpdate() {
         await updateReservation({
@@ -127,11 +122,11 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
             email: formData.email ? formData.email : initValues.email,
             date: formData.date ? formData.date : initValues.date,
             //@ts-ignore
-            seats: formData.seats ? formData.seats!.value : initValues.seats?.value,
+            seats: formData.seats ? formData.seats!.value : initValues.seats,
             message: formData.message ? formData.message : initValues.message,
         });
-        toggleEdit(false);
         refetch();
+        toggleEdit(false);
     };
 
     function showCalendar() {
