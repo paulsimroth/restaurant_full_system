@@ -4,12 +4,13 @@ import React, { useEffect, useState } from 'react';
 import { MultiValue } from 'react-select';
 import { trpc } from '~/utils/trpc';
 import ReactCalendar from 'react-calendar';
-import { format, formatISO, isBefore, parse,  } from 'date-fns';
+import { format, formatISO, isBefore, parse, parseISO, } from 'date-fns';
 import type { Day } from '@prisma/client';
 import type { DateTime } from '@types';
 import { getOpeningTimes, roundToNearestMinutes, seatingOptions } from '~/utils/helpers';
 import { useRouter } from 'next/router';
 import { Seat_Interval, now } from '~/constants';
+import { de } from 'date-fns/locale';
 
 const DynamicSelect = dynamic(() => import("react-select"), { ssr: false });
 
@@ -19,8 +20,8 @@ type Input = {
     surname: string
     email: string
     phone: string
-    seats: MultiValue<{ value: number; label: number }> | any
-    date: string
+    seats: MultiValue<{ value: number; label: number }>
+    date: DateTime | any
     message: string
 }
 
@@ -48,7 +49,7 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
         message: data.message,
     };
     console.log('initValues', initValues);
-    
+
     /**
      * SET STATES
      */
@@ -59,15 +60,32 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
         dateTime: null,
     });
 
+    console.log("date:", date);
+
+    const formatDate = date.dateTime ? date.dateTime!.toISOString() : initValues.date;
+
+    const formData = {
+        id: initValues.id,
+        name: input.name,
+        surname: input.surname,
+        phone: input.phone,
+        email: input.email,
+        date: formatDate,
+        seats: input.seats,
+        message: input.message,
+    };
+
+    console.log('formData', formData);
+
     //tRPC
     const { mutateAsync: updateReservation } = trpc.admin.updateReservation.useMutation();
+    const { data: reservations, refetch } = trpc.admin.getReservations.useQuery();
 
     const router = useRouter();
 
     //determine if today is closed
     const today = days.find((d) => d.dayOfWeek === now.getDay());
     const rounded = roundToNearestMinutes(now, Seat_Interval);
-    //@ts-ignore
     const closing = parse(today!.closeTime, 'kk:mm', now);
     const tooLate = !isBefore(rounded, closing);
     if (tooLate) closedDays.push(formatISO(new Date().setHours(0, 0, 0, 0)));
@@ -75,23 +93,25 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
     /**
      * USE EFFECTS
      */
-/*     useEffect(() => {
-        if (date.dateTime) {
-            localStorage.setItem('selectedTime', date.dateTime.toISOString());
-            //after Day and time are choosen redirecting to table booking
-        }
-    }, [date.dateTime, setToggleCalendar(false)]);
 
     useEffect(() => {
         toggleCalendar
         console.log("useEffect, toggleCalendar");
-    }, []); */
+    }, []);
 
     useEffect(() => {
         input
         console.log("useEffect, setInput");
     }, []);
-    
+
+    useEffect(() => {
+        setToggleCalendar
+    }, []);
+
+    useEffect(() => {
+        setDate
+    }, [date])
+
     //@ts-ignore
     const times = date.justDate && getOpeningTimes(date.justDate, days);
 
@@ -100,63 +120,81 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
      */
     async function handleUpdate() {
         await updateReservation({
-            id: initValues.id,
-            name: input.name,
-            surname: input.surname,
-            phone: input.phone,
-            email: input.email,
+            id: formData.id ? formData.id : data.id,
+            name: formData.name ? formData.name : data.name,
+            surname: formData.surname ? formData.surname : data.surname,
+            phone: formData.phone ? formData.phone : data.phone,
+            email: formData.email ? formData.email : data.email,
+            date: formData.date ? formData.date : data.date,
             //@ts-ignore
-            seats: input.seats.value,
-            date: "",
-            message: input.message,
+            seats: formData.seats ? formData.seats : data.seats,
+            message: formData.message ? formData.message : data.message,
         });
         toggleEdit(false);
+        refetch();
+    };
+
+    function showCalendar() {
+        setToggleCalendar(!toggleCalendar);
     };
 
     return (
         <div>
-            <div className="fixed mt-5 top-10 left-10 flex flex-col flex-wrap items-center justify-center z-50 h-[80vh] w-[80vw] bg-white">
-                <div>
-                    <button onClick={() => toggleEdit()} className='p-1 border border-black'>
+            <div className="fixed p-5 mt-5 top-[20%] left-[20%] flex flex-col flex-wrap items-center justify-center z-50 h-fit w-fit max-h-[80vh] max-w-[80vw] bg-white border-2 border-black">
+                <div className='m-1'>
+                    <button onClick={() => toggleEdit()} className='p-1 border border-black bg-[#D8D8D8]'>
                         CLOSE
                     </button>
                 </div>
                 <div>
-{/*                     {toggleCalendar ? (
-                        <div className='h-full flex flex-col justify-center items-center'>
-                            {date.justDate ? (
-
-                                <div className='flex flex-wrap gap-4'>
-                                    {times?.map((time, i) => (
-                                        <div key={`time-${i}`} className='rounded-sm bg-gray-100 p-2'>
-                                            <button type="button" onClick={() => setDate((prev) => ({ ...prev, dateTime: time }))}>
-                                                {format(time, "kk:mm")}
-                                            </button>
-                                        </div>
-                                    ))}
-                                </div>
-                            ) : (
-
-
-                                <ReactCalendar
-                                    minDate={new Date()}
-                                    className="p-2 REACT-CALENDAR font-bold"
-                                    view='month'
-                                    tileDisabled={({ date }) => closedDays.includes(formatISO(date))}
-                                    onClickDay={(date) => setDate((prev) => ({ ...prev, justDate: date }))}
-                                />
-                            )}
-                        </div>
-                    ) : ( */}
-
+                    {toggleCalendar ? (
                         <div>
-                            <div className="flex flex-row flex-wrap">
+                            <button onClick={() => showCalendar()} className='m-1 p-1 border border-black bg-[#D8D8D8]'>
+                                Edit Details
+                            </button>
+                            <div className='h-full flex flex-col justify-center items-center'>
+                                {date.justDate ? (
+
+                                    <div className='flex flex-wrap gap-4'>
+                                        {times?.map((time, i) => (
+                                            <div key={`time-${i}`} className='rounded-sm bg-black-100 p-2'>
+                                                <button type="button" onClick={() => setDate((prev) => ({ ...prev, dateTime: time }))}>
+                                                    {format(time, "kk:mm")}
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+
+
+                                    <ReactCalendar
+                                        minDate={new Date()}
+                                        className="p-2 REACT-CALENDAR font-bold"
+                                        view='month'
+                                        tileDisabled={({ date }) => closedDays.includes(formatISO(date))}
+                                        onClickDay={(date) => setDate((prev) => ({ ...prev, justDate: date }))}
+                                    />
+                                )}
+                            </div>
+                        </div>
+                    ) : (
+
+                        <div className="flex flex-col flex-wrap">
+                            <div className="flex flex-row flex-wrap items-center justify-center">
+                                <div className="m-1">
+                                    <button onClick={() => showCalendar()} className='m-1 p-1 border border-black bg-[#D8D8D8]'>
+                                        Edit Time
+                                    </button>
+                                    <p>Currently booked slot</p>
+                                    <strong>{format(parseISO(formatDate), 'do MMM yyyy', { locale: de })} at {format(parseISO(formatDate), 'kk:mm', { locale: de })}</strong>
+
+                                </div>
                                 <div className="m-1">
                                     <p className="px-3 text-[16px] md:text-[20px] flex flex-row">
                                         Name
                                     </p>
                                     <input
-                                        className='w-full h-14 p-3 m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331]'
+                                        className='w-full h-14 p-3 m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331] bg-[#D8D8D8]'
                                         name="name"
                                         type="text"
                                         placeholder="Your Name"
@@ -170,7 +208,7 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
                                         Surname
                                     </p>
                                     <input
-                                        className='w-full h-14 p-3 m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331]'
+                                        className='w-full h-14 p-3 m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331] bg-[#D8D8D8]'
                                         name="surname"
                                         type="text"
                                         placeholder="Your Surname"
@@ -180,13 +218,13 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
                                     />
                                 </div>
                             </div>
-                            <div className="flex flex-row flex-wrap">
+                            <div className="flex flex-row flex-wrap items-center justify-center">
                                 <div className="m-1">
                                     <p className="px-3 text-[16px] md:text-[20px] flex flex-row">
                                         Email
                                     </p>
                                     <input
-                                        className='w-full h-14 p-3 my-2 md:m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331]'
+                                        className='w-full h-14 p-3 my-2 md:m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331] bg-[#D8D8D8]'
                                         name="email"
                                         type="email"
                                         placeholder="example@mail.com"
@@ -200,7 +238,7 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
                                         Phone Number
                                     </p>
                                     <input
-                                        className='w-full h-14 p-3 my-2 md:m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331]'
+                                        className='w-full h-14 p-3 my-2 md:m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331] bg-[#D8D8D8]'
                                         name="phone"
                                         type="tel"
                                         placeholder="Your Phone Number"
@@ -209,30 +247,28 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
                                         required
                                     />
                                 </div>
+                                <div>
+                                    <p className="px-3 text-[16px] md:text-[20px] flex flex-row">
+                                        Select the number of Seats
+                                    </p>
+                                    <DynamicSelect
+                                        className='w-[150px] h-fit-content h-14 p-3 m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331]'
+                                        name="seats"
+                                        value={input.seats}
+                                        //@ts-ignore
+                                        onChange={(e) => setInput((prev) => ({ ...prev, seats: e }))}
+                                        required
+                                        options={seatingOptions}
+                                    />
+                                </div>
                             </div>
-
-                            <div>
-                                <p className="px-3 text-[16px] md:text-[20px] flex flex-row">
-                                    Select the number of Seats
-                                </p>
-                                <DynamicSelect
-                                    className='w-[150px] h-fit-content h-14 p-3 m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331]'
-                                    name="seats"
-                                    value={input.seats}
-                                    //@ts-ignore
-                                    onChange={(e) => setInput((prev) => ({ ...prev, seats: e }))}
-                                    required
-                                    options={seatingOptions}
-                                />
-                            </div>
-
                             <div>
 
                                 <p className="px-3 text-[16px] md:text-[20px] flex flex-row">
-                                    Leave us a Message about special wishes
+                                    Message and Comments
                                 </p>
                                 <textarea
-                                    className='w-full min-h-[50px] p-3 m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331]'
+                                    className='w-full min-h-[50px] p-3 m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331] bg-[#D8D8D8]'
                                     name="message"
                                     placeholder="Your Message"
                                     value={input.message}
@@ -240,11 +276,11 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
                                 />
                             </div>
                         </div>
-                    {/* )} */}
+                    )}
                 </div>
                 <div>
-                    <button onClick={handleUpdate}>
-                        SAVE CHANGES
+                    <button onClick={() => handleUpdate()} className='m-1 p-1 border border-black bg-[#D8D8D8]'>
+                        SAVE & CLOSE
                     </button>
                 </div>
             </div>

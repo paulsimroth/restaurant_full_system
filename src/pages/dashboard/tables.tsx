@@ -42,7 +42,7 @@ function tables({ days, closedDays }: HomeProps) {
     surname: "",
     email: "",
     phone: "",
-    seats: 0,
+    seats: [],
     date: "",
     message: "",
   };
@@ -217,6 +217,7 @@ function tables({ days, closedDays }: HomeProps) {
                   <p><strong>email: </strong>{reservation.email}</p>
                   <p><strong>phone: </strong>{reservation.phone}</p>
                   <p><strong>Time: </strong>{format(parseISO(reservation.date), 'do MMM yyyy', { locale: de })},{format(parseISO(reservation.date), 'kk:mm', { locale: de })}</p>
+                  {/* @ts-ignore */}
                   <p><strong>Seats: </strong>{reservation.seats}</p>
                   <p className='max-w-[280px]'><strong>Message: </strong>{reservation.message}</p>
                   <div className='w-full bg-black h-[2px]' />

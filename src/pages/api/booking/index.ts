@@ -38,7 +38,7 @@ const handler = async (
                     <h2>EMAIL: ${data.email}</h2>
                     <h2>TEL.: ${data.phone}</h2>
                     <br />
-                    <h2>RESERVED SEATS: ${data.seats}</h2>
+                    <h2>RESERVED SEATS: ${data.seats.value}</h2>
                     <h2>RESERVED TIME: ${day} at ${time}</h2>
                     <br />
                     <p>Additional message: ${data.message}</p>
