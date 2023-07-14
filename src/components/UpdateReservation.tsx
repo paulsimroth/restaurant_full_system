@@ -120,15 +120,15 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
      */
     async function handleUpdate() {
         await updateReservation({
-            id: formData.id ? formData.id : data.id,
-            name: formData.name ? formData.name : data.name,
-            surname: formData.surname ? formData.surname : data.surname,
-            phone: formData.phone ? formData.phone : data.phone,
-            email: formData.email ? formData.email : data.email,
-            date: formData.date ? formData.date : data.date,
+            id: formData.id ? formData.id : initValues.id,
+            name: formData.name ? formData.name : initValues.name,
+            surname: formData.surname ? formData.surname : initValues.surname,
+            phone: formData.phone ? formData.phone : initValues.phone,
+            email: formData.email ? formData.email : initValues.email,
+            date: formData.date ? formData.date : initValues.date,
             //@ts-ignore
-            seats: formData.seats ? formData.seats : data.seats,
-            message: formData.message ? formData.message : data.message,
+            seats: formData.seats ? formData.seats!.value : initValues.seats?.value,
+            message: formData.message ? formData.message : initValues.message,
         });
         toggleEdit(false);
         refetch();
@@ -140,16 +140,16 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
 
     return (
         <div>
-            <div className="fixed p-5 mt-5 top-[20%] left-[20%] flex flex-col flex-wrap items-center justify-center z-50 h-fit w-fit max-h-[80vh] max-w-[80vw] bg-white border-2 border-black">
+            <div className="fixed p-5 mt-5 top-[20%] left-[20%] flex flex-col flex-wrap items-center opacity-90 justify-center z-50 h-fit w-fit max-h-[80vh] max-w-[80vw] bg-white border-2 border-black">
                 <div className='m-1'>
-                    <button onClick={() => toggleEdit()} className='p-1 border border-black bg-[#D8D8D8]'>
-                        CLOSE
+                    <button onClick={() => toggleEdit()} className='m-1 p-1 border text-red-700 border-red-700 bg-[#D8D8D8] font-bold rounded-md hover:scale-110 duration-300 hover:text-white hover:bg-red-500'>
+                        CLOSE & DISCARD
                     </button>
                 </div>
                 <div>
                     {toggleCalendar ? (
                         <div>
-                            <button onClick={() => showCalendar()} className='m-1 p-1 border border-black bg-[#D8D8D8]'>
+                            <button onClick={() => showCalendar()} className='m-1 p-1 border text-green-700 border-green-700 bg-[#D8D8D8] font-bold rounded-md hover:scale-110 duration-300 hover:text-white hover:bg-green-500'>
                                 Edit Details
                             </button>
                             <div className='h-full flex flex-col justify-center items-center'>
@@ -182,7 +182,7 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
                         <div className="flex flex-col flex-wrap">
                             <div className="flex flex-row flex-wrap items-center justify-center">
                                 <div className="m-1">
-                                    <button onClick={() => showCalendar()} className='m-1 p-1 border border-black bg-[#D8D8D8]'>
+                                    <button onClick={() => showCalendar()} className='m-1 p-1 border text-green-700 border-green-700 bg-[#D8D8D8] font-bold rounded-md hover:scale-110 duration-300 hover:text-white hover:bg-green-500'>
                                         Edit Time
                                     </button>
                                     <p>Currently booked slot</p>
@@ -249,7 +249,7 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
                                 </div>
                                 <div>
                                     <p className="px-3 text-[16px] md:text-[20px] flex flex-row">
-                                        Select the number of Seats
+                                        Seats
                                     </p>
                                     <DynamicSelect
                                         className='w-[150px] h-fit-content h-14 p-3 m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331]'
@@ -279,7 +279,7 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
                     )}
                 </div>
                 <div>
-                    <button onClick={() => handleUpdate()} className='m-1 p-1 border border-black bg-[#D8D8D8]'>
+                    <button onClick={() => handleUpdate()} className='m-1 p-1 border text-green-700 border-green-700 bg-[#D8D8D8] font-bold rounded-md hover:scale-110 duration-300 hover:text-white hover:bg-green-500'>
                         SAVE & CLOSE
                     </button>
                 </div>
