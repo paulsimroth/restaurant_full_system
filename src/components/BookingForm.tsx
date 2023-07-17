@@ -11,6 +11,7 @@ import { MultiValue } from "react-select";
 import { sendBookingForm } from "~/lib/api";
 import { de } from "date-fns/locale";
 import { trpc } from "~/utils/trpc";
+import toast, { Toaster } from 'react-hot-toast';
 
 const DynamicSelect = dynamic(() => import("react-select"), { ssr: false });
 
@@ -98,11 +99,13 @@ function BookingForm({ selectedTime }: any | string) {
             await reservationToDb();
             setBookingProcessing(false);
             setBookingError(false);
+            toast.success("Reservation sent!");
             setInput(initValues);
             router.push('/');
         } catch (error) {
             setBookingError(true);
             setBookingProcessing(false);
+            toast.error("Reservation failed to send!");
             setInput((prev) => ({
                 ...prev,
                 error,
@@ -112,6 +115,7 @@ function BookingForm({ selectedTime }: any | string) {
 
     return (
         <>
+        <Toaster />
             <div className="flex flex-col items-center justify-center">
                 <div className="flex flex-row items-start justify-start">
                     <HiArrowLeft

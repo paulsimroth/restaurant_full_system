@@ -8,6 +8,8 @@ import { MultiValue } from "react-select/dist/declarations/src";
 import { selectOptions } from "~/utils/helpers";
 import { trpc } from "~/utils/trpc";
 import { Categories } from "~/utils/types";
+import toast, { Toaster } from 'react-hot-toast';
+import AdminNav from "~/components/AdminNav";
 
 const DynamicSelect = dynamic(() => import("react-select"), { ssr: false });
 
@@ -39,9 +41,15 @@ function menu() {
 
     // tRPC
     /* const { mutateAsync: createPresignedUrl } = trpc.admin.createPresignedUrl.useMutation(); */
-    const { mutateAsync: addItem } = trpc.admin.addMenuItem.useMutation();
+    const { mutateAsync: addItem } = trpc.admin.addMenuItem.useMutation({
+        onSuccess: () => toast.success('Menu changes saved'),
+        onError: () => toast.error('Something went wrong'),
+    });
     const { data: menuItems, refetch } = trpc.menu.getMenuItems.useQuery();
-    const { mutateAsync: deleteMenuItem } = trpc.admin.deleteMenuItem.useMutation();
+    const { mutateAsync: deleteMenuItem } = trpc.admin.deleteMenuItem.useMutation({
+        onSuccess: () => toast.success('Succesfully deleted'),
+        onError: () => toast.error('Something went wrong'),
+    });
 
     /*     useEffect(() => {
             //create Preview
@@ -116,35 +124,8 @@ function menu() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <div>
-                <div className="z-40 fixed bg-[#1C2331] text-[#FFA500] left-0 top-0 w-full border-b-4 border-[#FFA500] pb-8 pt-8 flex flex-row justify-around items-center">
-                    <Link href="/" className='cursor-pointer'>
-                        <Image
-                            src="/placeholder.png"
-                            alt="logo"
-                            width={60}
-                            height={60}
-                            className='block rounded-md object-contain'
-                        />
-                    </Link>
-                    <div className="flex flex-row items-center justify-between w-[30vw]">
-                        <Link
-                            href="/dashboard/opening"
-                            className="m-2 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300">
-                            Opening Hours
-                        </Link>
-                        <Link
-                            href="/dashboard/menu"
-                            className="m-2 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300">
-                            Menu
-                        </Link>
-                        <Link
-                            href="/dashboard/tables"
-                            className="m-2 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300">
-                            Bookings
-                        </Link>
-                    </div>
-                </div>
-
+                <Toaster />
+                <AdminNav />
                 <div className="flex h-fit flex-col items-center justify-center pt-36 text-[#2E3A59]">
                     <h1 className='mt-16 text-[50px] md:text-[70px] font-semibold'>Menu Dashboard</h1>
                     <div className="mx-auto flex w-2/3 flex-col gap-2">

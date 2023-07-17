@@ -12,6 +12,8 @@ import UpdateReservation from '~/components/UpdateReservation';
 import { prisma } from '~/server/db';
 import type { Day } from '@prisma/client';
 import { MultiValue } from 'react-select';
+import toast, { Toaster } from 'react-hot-toast';
+import AdminNav from '~/components/AdminNav';
 
 const DynamicSelect = dynamic(() => import("react-select"), { ssr: false });
 
@@ -70,7 +72,10 @@ function tables({ days, closedDays }: HomeProps) {
   //tRPC
   const { mutateAsync: addItem } = trpc.admin.bookReservation.useMutation();
   const { data: reservations, refetch } = trpc.admin.getReservations.useQuery();
-  const { mutateAsync: deleteReservation } = trpc.admin.deleteReservation.useMutation();
+  const { mutateAsync: deleteReservation } = trpc.admin.deleteReservation.useMutation({
+    onSuccess: () => toast.success('Succesfully deleted'),
+    onError: () => toast.error('Something went wrong'),
+  });
 
   /**
    * FUNCTIONS TO SELECT DAY
@@ -147,111 +152,87 @@ function tables({ days, closedDays }: HomeProps) {
         <meta name="description" content="Admin Dashboard" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="z-40 fixed bg-[#1C2331] text-[#FFA500] left-0 top-0 w-full border-b-4 border-[#FFA500] pb-8 pt-8 flex flex-row justify-around items-center">
-        <Link href="/" className='cursor-pointer'>
-          <Image
-            src="/placeholder.png"
-            alt="logo"
-            width={60}
-            height={60}
-            className='block rounded-md object-contain'
-          />
-        </Link>
-        <div className="flex flex-row items-center justify-between w-[30vw]">
-          <Link
-            href="/dashboard/opening"
-            className="m-2 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300">
-            Opening Hours
-          </Link>
-          <Link
-            href="/dashboard/menu"
-            className="m-2 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300">
-            Menu
-          </Link>
-          <Link
-            href="/dashboard/tables"
-            className="m-2 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300">
-            Bookings
-          </Link>
-        </div>
-      </div>
-      <div className="flex flex-col items-center justify-around p-24 text-[#2E3A59]">
-        <h1 className='mt-8 text-[50px] font-bold'>Bookings</h1>
-        <div>
-          <Link href="/booking" className="m-2 flex items-center h-fit w-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300">
-            MAKE RESERVATION
-          </Link>
+      <div>
+        <AdminNav />
+        <div className="flex flex-col items-center justify-around p-24 text-[#2E3A59]">
+          <Toaster />
+          <h1 className='mt-8 text-[50px] font-bold'>Bookings</h1>
           <div>
-            <div className='m-2'>
-              <p className='text-lg font-bold m-2'>Reservations for <strong>{format(parseISO(selectedDay), 'do MMM yyyy', { locale: de })}</strong></p>
+            <Link href="/booking" className="m-2 flex items-center h-fit w-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300">
+              MAKE RESERVATION
+            </Link>
+            <div>
+              <div className='m-2'>
+                <p className='text-lg font-bold m-2'>Reservations for <strong>{format(parseISO(selectedDay), 'do MMM yyyy', { locale: de })}</strong></p>
 
-              <div className='flex flex-row'>
-                <button
-                  className="m-2 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"
-                  onClick={decreaseDay}
-                >
-                  -1 Day
-                </button>
-                <button
-                  className="m-2 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"
-                  onClick={setToday}
-                >
-                  TODAY
-                </button>
-                <button
-                  className="m-2 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"
-                  onClick={increaseDay}
-                >
-                  +1 Day
-                </button>
-              </div>
-            </div>
-            <p className='text-lg font-bold m-2'>Total reservations: {index}</p>
-            <div className='m-6 p-6 mb-12 w-[90vw] h-fit flex flex-row flex-wrap items-start flex-center'>
-
-              {sortedTables?.map((reservation: any) => (
-                <div key={reservation.id} className="m-1 p-1 border h-fit w-fit border-black">
-                  <p className="font-bold">NAME: {reservation.name} {reservation.surname}</p>
-                  <div className='w-full bg-black h-[2px]' />
-                  <p><strong>email: </strong>{reservation.email}</p>
-                  <p><strong>phone: </strong>{reservation.phone}</p>
-                  <p><strong>Time: </strong>{format(parseISO(reservation.date), 'do MMM yyyy', { locale: de })},{format(parseISO(reservation.date), 'kk:mm', { locale: de })}</p>
-                  {/* @ts-ignore */}
-                  <p><strong>Seats: </strong>{reservation.seats}</p>
-                  <p className='max-w-[280px]'><strong>Message: </strong>{reservation.message}</p>
-                  <div className='w-full bg-black h-[2px]' />
-                  <div className='flex flex-row justify-around'>
-                    <button
-                      onClick={() => handleDelete(reservation.id)}
-                      className='text-xs text-red-500 border-red-500 border-2 p-1 m-1 rounded-md hover:scale-110 duration-300 hover:text-white hover:bg-red-500'
-                    >
-                      Delete
-                    </button>
-
-                    <button
-                      onClick={() => toggleEdit(reservation)}
-                      className='text-xs text-green-500 border-green-500 border-2 p-1 m-1 rounded-md hover:scale-110 duration-300 hover:text-white hover:bg-green-500'
-                    >
-                      Edit
-                    </button>
-
-
-                  </div>
+                <div className='flex flex-row'>
+                  <button
+                    className="m-2 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"
+                    onClick={decreaseDay}
+                  >
+                    -1 Day
+                  </button>
+                  <button
+                    className="m-2 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"
+                    onClick={setToday}
+                  >
+                    TODAY
+                  </button>
+                  <button
+                    className="m-2 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"
+                    onClick={increaseDay}
+                  >
+                    +1 Day
+                  </button>
                 </div>
-              ))}
+              </div>
+              <p className='text-lg font-bold m-2'>Total reservations: {index}</p>
+              <div className='m-6 p-6 mb-12 w-[90vw] h-fit flex flex-row flex-wrap items-start flex-center'>
+
+                {sortedTables?.map((reservation: any) => (
+                  <div key={reservation.id} className="m-1 p-1 border h-fit w-fit border-black">
+                    <p className="font-bold">NAME: {reservation.name} {reservation.surname}</p>
+                    <div className='w-full bg-black h-[2px]' />
+                    <p><strong>email: </strong>{reservation.email}</p>
+                    <p><strong>phone: </strong>{reservation.phone}</p>
+                    <p><strong>Time: </strong>{format(parseISO(reservation.date), 'do MMM yyyy', { locale: de })},{format(parseISO(reservation.date), 'kk:mm', { locale: de })}</p>
+                    {/* @ts-ignore */}
+                    <p><strong>Seats: </strong>{reservation.seats}</p>
+                    <p className='max-w-[280px]'><strong>Message: </strong>{reservation.message}</p>
+                    <div className='w-full bg-black h-[2px]' />
+                    <div className='flex flex-row justify-around'>
+                      <button
+                        onClick={() => handleDelete(reservation.id)}
+                        className='text-xs text-red-500 border-red-500 border-2 p-1 m-1 rounded-md hover:scale-110 duration-300 hover:text-white hover:bg-red-500'
+                      >
+                        Delete
+                      </button>
+
+                      <button
+                        onClick={() => toggleEdit(reservation)}
+                        className='text-xs text-green-500 border-green-500 border-2 p-1 m-1 rounded-md hover:scale-110 duration-300 hover:text-white hover:bg-green-500'
+                      >
+                        Edit
+                      </button>
+
+
+                    </div>
+                  </div>
+                ))}
+
+              </div>
+
 
             </div>
-
-
           </div>
         </div>
-      </div>
-      <div className=''>
+        <div className=''>
 
-        {toggle && (
-          <UpdateReservation days={days} closedDays={closedDays} data={editValues} toggleEdit={toggleEdit} />
-        )}
+          {toggle && (
+            <UpdateReservation days={days} closedDays={closedDays} data={editValues} toggleEdit={toggleEdit} />
+          )}
 
+        </div>
       </div>
     </>
   )

@@ -11,6 +11,7 @@ import { getOpeningTimes, roundToNearestMinutes, seatingOptions } from '~/utils/
 import { useRouter } from 'next/router';
 import { Seat_Interval, now } from '~/constants';
 import { de } from 'date-fns/locale';
+import toast, { Toaster } from 'react-hot-toast';
 
 const DynamicSelect = dynamic(() => import("react-select"), { ssr: false });
 
@@ -44,11 +45,11 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
         surname: data.surname,
         email: data.email,
         phone: data.phone,
-        seats: {value: data.seats, label: data.seats},
+        seats: { value: data.seats, label: data.seats },
         date: data.date,
         message: data.message,
     };
-    
+
     /**
      * SET STATES
      */
@@ -78,7 +79,10 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
     };
 
     //tRPC
-    const { mutateAsync: updateReservation } = trpc.admin.updateReservation.useMutation();
+    const { mutateAsync: updateReservation } = trpc.admin.updateReservation.useMutation({
+        onSuccess: () => toast.success('Changes saved'),
+        onError: () => toast.error('Something went wrong'),
+    });
     const { data: reservations, refetch } = trpc.admin.getReservations.useQuery();
 
     //determine if today is closed
@@ -111,7 +115,7 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
         if (date.dateTime) {
             showCalendar();
         };
-      }, [date.dateTime]);
+    }, [date.dateTime]);
 
     const times = date.justDate && getOpeningTimes(date.justDate, days);
 
@@ -144,6 +148,7 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
 
     return (
         <div>
+            <Toaster />
             <div className="fixed p-5 mt-5 top-[20%] left-[20%] flex flex-col flex-wrap items-center opacity-90 justify-center z-50 h-fit w-fit max-h-[80vh] max-w-[80vw] bg-white border-2 border-black">
                 <div className='m-1'>
                     <button onClick={() => toggleEdit()} className='m-1 p-1 border text-red-700 border-red-700 bg-[#D8D8D8] font-bold rounded-md hover:scale-110 duration-300 hover:text-white hover:bg-red-500'>
