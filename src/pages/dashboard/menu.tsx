@@ -217,7 +217,7 @@ function menu() {
                     <div className='mx-auto mt-12 max-w-7xl'>
                         <p className='text-lg font-bold m-2'>Your menu items:</p>
                         <div className='mt-6 mb-12 grid grid-cols-4 gap-8'>
-                            {menuItems?.map((menuItem) => (
+                            {menuItems?.map((menuItem: any) => (
                                 <div key={menuItem.id} className="m-1 p-1 border border-black">
                                     <p className="font-bold">{menuItem.name}</p>
                                     <p>€{menuItem.price}</p>

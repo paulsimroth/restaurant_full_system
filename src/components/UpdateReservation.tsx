@@ -105,7 +105,13 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
 
     useEffect(() => {
         setDate
-    }, [date])
+    }, [date]);
+
+    useEffect(() => {
+        if (date.dateTime) {
+            showCalendar();
+        };
+      }, [date.dateTime]);
 
     const times = date.justDate && getOpeningTimes(date.justDate, days);
 
@@ -155,7 +161,7 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
 
                                     <div className='flex flex-wrap gap-4'>
                                         {times?.map((time, i) => (
-                                            <div key={`time-${i}`} className='rounded-sm bg-black-100 p-2'>
+                                            <div key={`time-${i}`} className='rounded-sm bg-black-100 p-2 hover:scale-110 duration-300 '>
                                                 <button type="button" onClick={() => setDate((prev) => ({ ...prev, dateTime: time }))}>
                                                     {format(time, "kk:mm")}
                                                 </button>
