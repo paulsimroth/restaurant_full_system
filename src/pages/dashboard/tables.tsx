@@ -113,7 +113,7 @@ function tables({ days, closedDays }: HomeProps) {
   /**
    * Filters reservations before rendering to only show reservations for the selected date
    */
-  const filterTablesByDate = reservations?.filter((reservation) => {
+  const filterTablesByDate = reservations?.filter((reservation: any) => {
 
     const formatDate: string | undefined = reservation.date.split('T')[0]
     const formatSelectedDay: string | undefined = selectedDay.split('T')[0]
@@ -209,7 +209,7 @@ function tables({ days, closedDays }: HomeProps) {
             <p className='text-lg font-bold m-2'>Total reservations: {index}</p>
             <div className='m-6 p-6 mb-12 w-[90vw] h-fit flex flex-row flex-wrap items-start flex-center'>
 
-              {sortedTables?.map((reservation) => (
+              {sortedTables?.map((reservation: any) => (
                 <div key={reservation.id} className="m-1 p-1 border h-fit w-fit border-black">
                   <p className="font-bold">NAME: {reservation.name} {reservation.surname}</p>
                   <div className='w-full bg-black h-[2px]' />
@@ -259,7 +259,7 @@ function tables({ days, closedDays }: HomeProps) {
 
 export async function getServerSideProps() {
   const days = await prisma.day.findMany();
-  const closedDays = (await prisma.closedDay.findMany()).map((d) => formatISO(d.date));
+  const closedDays = (await prisma.closedDay.findMany()).map((d: any) => formatISO(d.date));
   return { props: { days, closedDays } };
 };
 

@@ -74,6 +74,6 @@ export const openingRouter = createTRPCRouter({
 
     getClosedDays: adminProcedure.query(async ({ ctx }) => {
         const closedDays = await ctx.prisma.closedDay.findMany();
-        return closedDays.map((d) => formatISO(d.date))
+        return closedDays.map((d: any) => formatISO(d.date))
     })
 })

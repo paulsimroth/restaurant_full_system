@@ -18,7 +18,7 @@ function Menu({selectedTime}: any) {
   const { data: menuItems } = trpc.menu.getMenuItems.useQuery();
   const [filter, setFilter] = useState<undefined | string>('');
 
-  const filteredMenuItems = menuItems?.filter((menuItem) => {
+  const filteredMenuItems = menuItems?.filter((menuItem: any) => {
     if(!filter) return true;
     return menuItem.categories.includes(filter);
   })
@@ -47,7 +47,7 @@ function Menu({selectedTime}: any) {
         </div>
 
         <div className='mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8'>
-          {filteredMenuItems?.map((menuItem) => (
+          {filteredMenuItems?.map((menuItem: any) => (
             <div key={menuItem.id} className='group relative'>
 {/*               <div className='min-h-80 aspect-w-1 aspect-h-1 lg:aspect-none w-full overflow-hidden rounded-md bg-gray-200 hover:opacity-75 lg:h-80'>
                 <div className='relative h-full w-full object-cover object-center lg:h-full lg:w-full'>
@@ -65,7 +65,7 @@ function Menu({selectedTime}: any) {
                     <p>{menuItem.name}</p>
                   </h3>
                   <p className='m-1 text-sm text-gray-500'>
-                    {menuItem.categories.map((c) => capitalize(c)).join(', ')}
+                    {menuItem.categories.map((c: any) => capitalize(c)).join(', ')}
                   </p>
                 </div>
                 <p className='m-1 text-sm font-medium text-gray-900'>€{menuItem.price.toFixed(2)}</p>

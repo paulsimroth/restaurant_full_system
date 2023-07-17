@@ -44,23 +44,26 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
         surname: data.surname,
         email: data.email,
         phone: data.phone,
-        seats: data.seats,
+        seats: {value: data.seats, label: data.seats},
         date: data.date,
         message: data.message,
     };
-
+    
     /**
      * SET STATES
      */
+    //@ts-ignore
     const [input, setInput] = useState<Input>(initValues);
-    const [toggleCalendar, setToggleCalendar] = useState(false);
+    const [toggleCalendar, setToggleCalendar] = useState<boolean>(false);
     const [date, setDate] = useState<DateTime>({
         justDate: null,
         dateTime: null,
     });
 
-    console.log("date:", date);
-
+    /**
+     * FORMATTING DATE FOR CORRECT PROCESSING
+     * OTHERWISE ERROR
+     */
     const formatDate = date.dateTime ? date.dateTime!.toISOString() : initValues.date;
 
     const formData = {
@@ -78,8 +81,6 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
     const { mutateAsync: updateReservation } = trpc.admin.updateReservation.useMutation();
     const { data: reservations, refetch } = trpc.admin.getReservations.useQuery();
 
-    const router = useRouter();
-
     //determine if today is closed
     const today = days.find((d) => d.dayOfWeek === now.getDay());
     const rounded = roundToNearestMinutes(now, Seat_Interval);
@@ -90,7 +91,6 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
     /**
      * USE EFFECTS
      */
-
     useEffect(() => {
         toggleCalendar
     }, []);
@@ -111,7 +111,7 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
 
     /**
      * UPDATE RESERVATION IN DATABASE
-     * THE REFETCH AND CLOSE POPUP
+     * THEN REFETCH AND CLOSE POPUP
      */
     async function handleUpdate() {
         await updateReservation({
@@ -122,13 +122,16 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
             email: formData.email ? formData.email : initValues.email,
             date: formData.date ? formData.date : initValues.date,
             //@ts-ignore
-            seats: formData.seats ? formData.seats!.value : initValues.seats,
+            seats: formData.seats ? formData.seats!.value : initValues.seats!.value,
             message: formData.message ? formData.message : initValues.message,
         });
-        refetch();
+        await refetch();
         toggleEdit(false);
     };
 
+    /**
+     * TOGGLE CALENDAR
+     */
     function showCalendar() {
         setToggleCalendar(!toggleCalendar);
     };
