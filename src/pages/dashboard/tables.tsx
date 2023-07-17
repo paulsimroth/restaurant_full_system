@@ -1,6 +1,5 @@
 'use client'
 import Head from 'next/head';
-import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { trpc } from "~/utils/trpc";
@@ -164,7 +163,6 @@ function tables({ days, closedDays }: HomeProps) {
             <div>
               <div className='m-2'>
                 <p className='text-lg font-bold m-2'>Reservations for <strong>{format(parseISO(selectedDay), 'do MMM yyyy', { locale: de })}</strong></p>
-
                 <div className='flex flex-row'>
                   <button
                     className="m-2 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"
@@ -188,7 +186,6 @@ function tables({ days, closedDays }: HomeProps) {
               </div>
               <p className='text-lg font-bold m-2'>Total reservations: {index}</p>
               <div className='m-6 p-6 mb-12 w-[90vw] h-fit flex flex-row flex-wrap items-start flex-center'>
-
                 {sortedTables?.map((reservation: any) => (
                   <div key={reservation.id} className="m-1 p-1 border h-fit w-fit border-black">
                     <p className="font-bold">NAME: {reservation.name} {reservation.surname}</p>
@@ -207,31 +204,23 @@ function tables({ days, closedDays }: HomeProps) {
                       >
                         Delete
                       </button>
-
                       <button
                         onClick={() => toggleEdit(reservation)}
                         className='text-xs text-green-500 border-green-500 border-2 p-1 m-1 rounded-md hover:scale-110 duration-300 hover:text-white hover:bg-green-500'
                       >
                         Edit
                       </button>
-
-
                     </div>
                   </div>
                 ))}
-
               </div>
-
-
             </div>
           </div>
         </div>
-        <div className=''>
-
+        <div>
           {toggle && (
             <UpdateReservation days={days} closedDays={closedDays} data={editValues} toggleEdit={toggleEdit} />
           )}
-
         </div>
       </div>
     </>

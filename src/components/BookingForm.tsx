@@ -93,7 +93,6 @@ function BookingForm({ selectedTime }: any | string) {
         setInput((prev) => ({
             ...prev,
         }))
-
         try {
             await sendBookingForm(data);
             await reservationToDb();
@@ -129,9 +128,7 @@ function BookingForm({ selectedTime }: any | string) {
                 <p className="p-1 text-xl"><strong>Your reservation details: {format(parseISO(selectedTime), 'do MMM yyyy', { locale: de })} at {format(parseISO(selectedTime), 'kk:mm', { locale: de })}</strong></p>
             </div>
             <form>
-
                 <div className="flex flex-col flex-wrap items-center justify-center">
-
                     <div className="flex flex-row flex-wrap">
                         <div className="m-1">
                             <p className="px-3 text-[16px] md:text-[20px] flex flex-row">
@@ -196,7 +193,6 @@ function BookingForm({ selectedTime }: any | string) {
                             />
                         </div>
                     </div>
-
                     <div>
                         <p className="px-3 text-[16px] md:text-[20px] flex flex-row">
                             Select the number of Seats
@@ -212,9 +208,7 @@ function BookingForm({ selectedTime }: any | string) {
                             options={seatingOptions}
                         />
                     </div>
-
                     <div>
-
                         <p className="px-3 text-[16px] md:text-[20px] flex flex-row">
                             Leave us a Message about special wishes
                         </p>
@@ -227,7 +221,6 @@ function BookingForm({ selectedTime }: any | string) {
                         />
                     </div>
                 </div>
-
                 {!bookingProcessing
                     ? <input
                         className="m-1 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"
@@ -243,7 +236,6 @@ function BookingForm({ selectedTime }: any | string) {
                         onClick={onSubmit}
                     />
                 }
-
                 {bookingError &&
                     <div className="p-6 m-4 bg-[#ff0000] rounded-md flex items-center h-fit w-fit">
                         <p className="font-extrabold text-[16px] text-white">ERROR, Failed to send reservation!</p>

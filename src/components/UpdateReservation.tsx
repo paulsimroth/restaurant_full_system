@@ -8,7 +8,6 @@ import { format, formatISO, isBefore, parse, parseISO, } from 'date-fns';
 import type { Day } from '@prisma/client';
 import type { DateTime } from '@types';
 import { getOpeningTimes, roundToNearestMinutes, seatingOptions } from '~/utils/helpers';
-import { useRouter } from 'next/router';
 import { Seat_Interval, now } from '~/constants';
 import { de } from 'date-fns/locale';
 import toast, { Toaster } from 'react-hot-toast';
@@ -149,7 +148,7 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
     return (
         <div>
             <Toaster />
-            <div className="fixed p-5 mt-5 top-[20%] left-[20%] flex flex-col flex-wrap items-center opacity-90 justify-center z-50 h-fit w-fit max-h-[80vh] max-w-[80vw] bg-white border-2 border-black">
+            <div className="fixed p-5 mt-5 top-[20%] left-[20%] flex flex-col flex-wrap items-center opacity-90 justify-center z-50 h-fit w-fit max-h-[80vh] max-w-[80vw] bg-white border-2 border-black rounded-xl">
                 <div className='m-1'>
                     <button onClick={() => toggleEdit()} className='m-1 p-1 border text-red-700 border-red-700 bg-[#D8D8D8] font-bold rounded-md hover:scale-110 duration-300 hover:text-white hover:bg-red-500'>
                         CLOSE & DISCARD
@@ -163,7 +162,6 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
                             </button>
                             <div className='h-full flex flex-col justify-center items-center'>
                                 {date.justDate ? (
-
                                     <div className='flex flex-wrap gap-4'>
                                         {times?.map((time, i) => (
                                             <div key={`time-${i}`} className='rounded-sm bg-black-100 p-2 hover:scale-110 duration-300 '>
@@ -174,8 +172,6 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
                                         ))}
                                     </div>
                                 ) : (
-
-
                                     <ReactCalendar
                                         minDate={new Date()}
                                         className="p-2 REACT-CALENDAR font-bold"
@@ -187,7 +183,6 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
                             </div>
                         </div>
                     ) : (
-
                         <div className="flex flex-col flex-wrap">
                             <div className="flex flex-row flex-wrap items-center justify-center">
                                 <div className="m-1">
@@ -196,7 +191,6 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
                                     </button>
                                     <p>Currently booked slot</p>
                                     <strong>{format(parseISO(formatDate), 'do MMM yyyy', { locale: de })} at {format(parseISO(formatDate), 'kk:mm', { locale: de })}</strong>
-
                                 </div>
                                 <div className="m-1">
                                     <p className="px-3 text-[16px] md:text-[20px] flex flex-row">
@@ -272,7 +266,6 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
                                 </div>
                             </div>
                             <div>
-
                                 <p className="px-3 text-[16px] md:text-[20px] flex flex-row">
                                     Message and Comments
                                 </p>

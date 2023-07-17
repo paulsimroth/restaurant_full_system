@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Image from "next/image";
 import Link from "next/link";
 import AdminNav from "~/components/AdminNav";
 import { trpc } from "~/utils/trpc";

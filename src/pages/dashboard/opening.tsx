@@ -11,8 +11,6 @@ import { capitalize, classNames, weekdayIndexToName } from "~/utils/helpers";
 import TimeSelector from "~/components/TimeSelector";
 import Calendar from "react-calendar";
 import { now } from "~/constants";
-import Link from "next/link";
-import Image from "next/image";
 import AdminNav from "~/components/AdminNav";
 
 interface openingProps {
