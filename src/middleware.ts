@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyAuth } from "./lib/auth";
 
+/**
+ * 
+ * @param req login request to Middleware
+ * if token and login credentials are valid
+ * @returns 
+ */
+
 export async function middleware(req: NextRequest) {
     //get user token
     const token = req.cookies.get('user-token')?.value;

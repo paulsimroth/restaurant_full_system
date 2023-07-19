@@ -24,7 +24,7 @@ function page({ }: menuProps) {
         },
     });
 
-    useEffect(() => {
+/*     useEffect(() => {
         const selectedTime = localStorage.getItem('selectedTime');
         //reroutes to home if not time selected
         if (!selectedTime) router.push('/')
@@ -35,7 +35,7 @@ function page({ }: menuProps) {
             //Date is valid
             setSelectedTime(selectedTime);
         }
-    }, []);
+    }, []); */
 
     return (
         <>
@@ -46,18 +46,14 @@ function page({ }: menuProps) {
             </Head>
             <main>
                 <Navbar />
-                <div className="flex min-h-screen flex-col items-center justify-between p-24">
-                    <h1 className='m-2 text-[50px] md:text-[70px] font-semibold text-[#2E3A59]'>Our Menu</h1>
-                    <div>
-                        {isFetchedAfterMount && selectedTime ? (
+                <div className="flex min-h-screen flex-col items-center justify-start p-24">
+                    <h1 className='m-2 text-[50px] md:text-[80px] font-semibold text-[#2E3A59]'>Our Menu</h1>
+                    <div className="flex flex-col items-start justify-start m-4">
+                        {isFetchedAfterMount && (
                             <>
-                                <button className="border p-2 border-[#2E3A59] hover:scale-110 duration-300 font-bold">Back to Time Selection</button>
-                                <Menu selectedTime={selectedTime} />
+                                {/* <button className="border p-2 border-[#2E3A59] hover:scale-110 duration-300 font-bold">Back to Time Selection</button> */}
+                                <Menu/>
                             </>
-                        ) : (
-                            <div className="flex h-screen items-center justify-center">
-                                <Spinner />
-                            </div>
                         )}
                     </div>
                 </div>

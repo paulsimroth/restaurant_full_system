@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useState } from "react";
 import { MultiValue } from "react-select/dist/declarations/src";
-import { selectOptions } from "~/utils/helpers";
+import { capitalize, selectOptions } from "~/utils/helpers";
 import { trpc } from "~/utils/trpc";
 import { Categories } from "~/utils/types";
 import toast, { Toaster } from 'react-hot-toast';
@@ -124,9 +124,9 @@ function menu() {
             <div>
                 <Toaster />
                 <AdminNav />
-                <div className="flex h-fit flex-col items-center justify-center pt-36 text-[#2E3A59]">
+                <div className="flex h-fit w-[90vw] flex-col items-center justify-center pt-36 text-[#2E3A59]">
                     <h1 className='mt-16 text-[50px] md:text-[70px] font-semibold'>Menu Dashboard</h1>
-                    <div className="mx-auto flex w-2/3 flex-col gap-2">
+                    <div className="mx-auto flex w-1/3 flex-col gap-2">
                         <input
                             name="name"
                             className="h-12 p-2 rounded-sm border-none bg-gray-200"
@@ -135,7 +135,6 @@ function menu() {
                             onChange={(e) => setInput((prev) => ({ ...prev, name: e.target.value }))}
                             value={input.name}
                         />
-
                         <input
                             name="price"
                             className="h-12 p-2 rounded-sm border-none bg-gray-200"
@@ -143,7 +142,6 @@ function menu() {
                             placeholder="price"
                             onChange={(e) => setInput((prev) => ({ ...prev, price: Number(e.target.value) }))}
                         />
-
                         <textarea
                             name="description"
                             className="h-12 p-2 rounded-sm border-none bg-gray-200"
@@ -151,7 +149,6 @@ function menu() {
                             onChange={(e) => setInput((prev) => ({ ...prev, description: e.target.value }))}
                             value={input.description}
                         />
-
                         <DynamicSelect
                             value={input.categories}
                             //@ts-ignore
@@ -160,7 +157,6 @@ function menu() {
                             className="h-12"
                             options={selectOptions}
                         />
-
                         {/*                         <label
                             htmlFor='file'
                             className='relative h-12 cursor-pointer rounded-sm bg-gray-200 font-medium text-indigo-600 focus-within:outline-none'>
@@ -183,7 +179,6 @@ function menu() {
                                 className='sr-only'
                             />
                         </label> */}
-
                         <button
                             className='h-12 rounded-sm bg-gray-200 disabled:cursor-not-allowed'
                             disabled={!input.name}
@@ -192,21 +187,23 @@ function menu() {
                         </button>
                     </div>
                     {error && <p className='text-xs text-red-600'>{error}</p>}
-
                     <div className='mx-auto mt-12 max-w-7xl'>
                         <p className='text-lg font-bold m-2'>Your menu items:</p>
                         <div className='mt-6 mb-12 grid grid-cols-4 gap-8'>
                             {menuItems?.map((menuItem: any) => (
-                                <div key={menuItem.id} className="m-1 p-1 border border-black">
-                                    <p className="font-bold">{menuItem.name}</p>
-                                    <p>€{menuItem.price}</p>
+                                <div key={menuItem.id} className="m-2 p-2 border border-black rounded-md flex flex-col items-start justify-between">
+                                    <div className="flex flex-row items-center justify-between w-full">
+                                        <p className="font-bold">{menuItem.name}</p>
+                                        <p>€{menuItem.price}</p>
+                                    </div>
+                                    <p className="italic">{menuItem.categories.map((c: any) => capitalize(c)).join(', ')}</p>
                                     <p>{menuItem.description}</p>
                                     {/*                                     <div className='relative h-40 w-40'>
                                         <Image priority fill alt='' src={menuItem.url} />
                                     </div> */}
                                     <button
                                         onClick={() => handleDelete(menuItem.id)}
-                                        className='text-xs text-red-500 border-red-500 border-2 p-1 rounded-md hover:scale-110 duration-300 hover:text-white hover:bg-red-500'>
+                                        className='w-[53px] text-xs text-red-500 border-red-500 border-2 p-1 rounded-md hover:scale-110 duration-300 hover:text-white hover:bg-red-500'>
                                         Delete
                                     </button>
                                 </div>

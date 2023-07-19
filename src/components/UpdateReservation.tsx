@@ -11,6 +11,7 @@ import { getOpeningTimes, roundToNearestMinutes, seatingOptions } from '~/utils/
 import { Seat_Interval, now } from '~/constants';
 import { de } from 'date-fns/locale';
 import toast, { Toaster } from 'react-hot-toast';
+import { motion, useDragControls } from 'framer-motion';
 
 const DynamicSelect = dynamic(() => import("react-select"), { ssr: false });
 
@@ -148,7 +149,18 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
     return (
         <div>
             <Toaster />
-            <div className="fixed p-5 mt-5 top-[20%] left-[20%] flex flex-col flex-wrap items-center opacity-90 justify-center z-50 h-fit w-fit max-h-[80vh] max-w-[80vw] bg-white border-2 border-black rounded-xl">
+            <motion.div
+                className="fixed p-5 mt-5 top-[20%] left-[20%] flex flex-col flex-wrap items-center opacity-90 justify-center z-50 h-fit w-fit max-h-[80vh] max-w-[80vw] bg-white border-4 border-[#1C2331] rounded-xl"
+                drag
+                dragConstraints={{
+                    top: -1000,
+                    left: -1000,
+                    right: 1000,
+                    bottom: 1000,
+                }}
+                whileInView="show"
+                dragMomentum={false}
+            >
                 <div className='m-1'>
                     <button onClick={() => toggleEdit()} className='m-1 p-1 border text-red-700 border-red-700 bg-[#D8D8D8] font-bold rounded-md hover:scale-110 duration-300 hover:text-white hover:bg-red-500'>
                         CLOSE & DISCARD
@@ -285,7 +297,7 @@ function UpdateReservation({ days, closedDays, data, toggleEdit }: EditProps) {
                         SAVE & CLOSE
                     </button>
                 </div>
-            </div>
+            </motion.div>
         </div>
     )
 };

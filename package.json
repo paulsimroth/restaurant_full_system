@@ -23,7 +23,7 @@
     "aws-sdk": "^2.1409.0",
     "cookie": "^0.5.0",
     "date-fns": "^2.30.0",
-    "framer-motion": "^10.0.1",
+    "framer-motion": "^10.12.22",
     "jose": "^4.14.4",
     "nanoid": "^4.0.2",
     "next": "^13.4.2",
