@@ -41,7 +41,7 @@ function page({ days, closedDays }: HomeProps) {
             </button>
           </Link>
         </div>
-        <div className="h-[40vh] bg-[#1C2331] text-[#FFA500] mt-12 flex min-h-screen flex-col items-center justify-center p-24">
+        <div className="h-[40vh] bg-white text-[#FFA500] mt-12 flex min-h-screen flex-col items-center justify-center p-24">
           <h1 className='m-2 text-[50px] md:text-[70px] text-[#FFA500] font-semibold'>
             BOOK YOUR TABLE
           </h1>

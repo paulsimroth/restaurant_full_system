@@ -3,7 +3,7 @@ import SubHeading from '~/components/SubHeading'
 
 function Chef() {
   return (
-    <section className="w-[100vw] px-4 md:px-24 p-6 bg-black text-white flex flex-col md:flex-row items-center justify-center" id="chef">
+    <section className="w-[100vw] px-4 md:px-24 p-6 bg-white text-[#1C2331] flex flex-col md:flex-row items-center justify-center" id="chef">
       <div className='w-[300px] h-[300px] m-4'>
         <Image
           src="/placeholder.png"

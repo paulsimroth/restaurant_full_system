@@ -74,7 +74,7 @@ function ContactForm() {
                             <Image src="/asterisk.svg" alt="required" width={15} height={15} className="m-1"/>
                         </p>
                         <input
-                            className='w-full h-14 p-3 m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331]'
+                            className='w-full h-14 p-3 m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331] bg-slate-200'
                             name="user_name"
                             type="text"
                             placeholder="Your Name"
@@ -91,7 +91,7 @@ function ContactForm() {
                             <Image src="/asterisk.svg" alt="required" width={15} height={15} className="m-1"/>
                         </p>
                         <input
-                            className='w-full h-14 p-3 my-2 md:m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331]'
+                            className='w-full h-14 p-3 my-2 md:m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331] bg-slate-200'
                             name="user_email"
                             type="email"
                             placeholder="example@email.com"
@@ -109,7 +109,7 @@ function ContactForm() {
                         <Image src="/asterisk.svg" alt="required" width={15} height={15} className="m-1"/>
                     </p>
                     <input
-                        className='w-full h-fit-content h-14 p-3 m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331]'
+                        className='w-full h-fit-content h-14 p-3 m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331] bg-slate-200'
                         name="subject"
                         type="text"
                         placeholder="Your Subject"
@@ -126,7 +126,7 @@ function ContactForm() {
                     </p>
 
                     <textarea
-                        className='w-full min-h-[250px] p-3 m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331]'
+                        className='w-full min-h-[250px] p-3 m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331] bg-slate-200'
                         name="message"
                         placeholder="Your Message"
                         value={values.message}

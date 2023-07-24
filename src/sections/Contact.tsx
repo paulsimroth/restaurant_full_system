@@ -13,18 +13,18 @@ function Contact() {
     const email = process.env.NEXT_PUBLIC_EMAIL;
 
     return (
-        <section className='w-[100vw] h-fit px-4 md:px-24 p-6 flex flex-col items-center justify-center bg-[#1C2331]' id='contact'>
-            <h3 className='text-[50px] md:text-[70px] text-[#FFA500] font-semibold mt-16 mb-4'>CONTACT</h3>
-            <div className='w-full flex flex-col lg:flex-row text-white'>
+        <section className='w-[100vw] h-fit px-4 md:px-24 p-6 flex flex-col items-center justify-center bg-white' id='contact'>
+            <h3 className='text-[50px] md:text-[70px] text-[#1C2331] font-semibold mt-16 mb-4'>CONTACT</h3>
+            <div className='w-full flex flex-col lg:flex-row text-[#1C2331]'>
 
-                <div className='w-full lg:w-2/3 h-fit m-2 border-4 border-[#FFA500]'>
+                <div className='w-full lg:w-2/3 h-fit m-2 border-4 border-[#1C2331]'>
                     <Map />
                 </div>
 
-                <div className='w-fit min-w-[290px] h-2/3 md:m-2 p-2 text-justify flex flex-col wrap'>
+                <div className='w-fit min-w-[290px] min-h-2/3 h-fit md:w-full md:m-2 p-2 text-justify flex flex-col md:flex-row lg:flex-col items-center justify-center wrap'>
 
                     <div className='m-2'>
-                        <p className='text-[25px] text-[#FFA500]'>
+                        <p className='text-[25px] text-[#1C2331]'>
                             You can find us at:
                         </p>
                         <div className='p-1'>
@@ -37,7 +37,7 @@ function Contact() {
                     <br />
 
                     <div className='m-2'>
-                        <p className='text-[25px] text-[#FFA500]'>
+                        <p className='text-[25px] text-[#1C2331]'>
                             Opening Hours:
                         </p>
                         <ul className='p-1'>

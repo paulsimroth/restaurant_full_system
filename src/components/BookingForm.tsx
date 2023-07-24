@@ -136,7 +136,7 @@ function BookingForm({ selectedTime }: any | string) {
                                 <Image src="/asterisk.svg" alt="required" width={15} height={15} className="m-1" />
                             </p>
                             <input
-                                className='w-full h-14 p-3 m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331]'
+                                className='w-full h-14 p-3 m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331] bg-slate-200'
                                 name="name"
                                 type="text"
                                 placeholder="Your Name"
@@ -151,7 +151,7 @@ function BookingForm({ selectedTime }: any | string) {
                                 <Image src="/asterisk.svg" alt="required" width={15} height={15} className="m-1" />
                             </p>
                             <input
-                                className='w-full h-14 p-3 m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331]'
+                                className='w-full h-14 p-3 m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331] bg-slate-200'
                                 name="surname"
                                 type="text"
                                 placeholder="Your Surname"
@@ -168,7 +168,7 @@ function BookingForm({ selectedTime }: any | string) {
                                 <Image src="/asterisk.svg" alt="required" width={15} height={15} className="m-1" />
                             </p>
                             <input
-                                className='w-full h-14 p-3 my-2 md:m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331]'
+                                className='w-full h-14 p-3 my-2 md:m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331] bg-slate-200'
                                 name="email"
                                 type="email"
                                 placeholder="example@mail.com"
@@ -183,7 +183,7 @@ function BookingForm({ selectedTime }: any | string) {
                                 <Image src="/asterisk.svg" alt="required" width={15} height={15} className="m-1" />
                             </p>
                             <input
-                                className='w-full h-14 p-3 my-2 md:m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331]'
+                                className='w-full h-14 p-3 my-2 md:m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331] bg-slate-200'
                                 name="phone"
                                 type="tel"
                                 placeholder="Your Phone Number"
@@ -213,7 +213,7 @@ function BookingForm({ selectedTime }: any | string) {
                             Leave us a Message about special wishes
                         </p>
                         <textarea
-                            className='w-full min-h-[50px] p-3 m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331]'
+                            className='w-full min-h-[50px] p-3 m-2 rounded-[15px] text-[16px] md:text-[23px] text-[#1C2331] bg-slate-200'
                             name="message"
                             placeholder="Your Message"
                             value={input.message}
@@ -225,7 +225,7 @@ function BookingForm({ selectedTime }: any | string) {
                     ? <input
                         className="m-1 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300"
                         type="submit"
-                        value="Send"
+                        value="Send Reservation"
                         onClick={onSubmit}
                         disabled={!input.name || !input.surname || !input.email || !input.seats}
                     />

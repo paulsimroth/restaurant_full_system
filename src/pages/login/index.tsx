@@ -37,7 +37,7 @@ function page() {
             </Head>
             <main>
                 <Navbar />
-                <div className="bg-[#1C2331] text-[#FFA500] mt-12 flex min-h-screen flex-col items-center justify-center pt-24">
+                <div className="bg-white text-[#1C2331] mt-12 flex min-h-screen flex-col items-center justify-center pt-24">
                     <h1>LOGIN</h1>
                     <form className='mt-8 space-y-6 flex flex-col items-center justify-center'>
                         <div className='w-2/3 h-1/2 text-[25px]'>
@@ -55,7 +55,7 @@ function page() {
                                     required
                                     placeholder='Email'
                                     onChange={handleChange}
-                                    className='focus:z-10'
+                                    className='focus:z-10 bg-slate-200'
                                 />
                             </div>
                             <div className='my-2 mx-1'>
@@ -71,7 +71,7 @@ function page() {
                                     required
                                     placeholder='Password'
                                     onChange={handleChange}
-                                    className='focus:z-10'
+                                    className='focus:z-10 bg-slate-200'
                                 />
                             </div>
                             <div>

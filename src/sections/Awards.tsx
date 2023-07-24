@@ -14,8 +14,8 @@ function AwardCard({ award: { imgUrl, title, subtitle , key} }: any) {
         className='rounded-lg object-contain'
       />
       <div className="p-2">
-        <p className="text-[#DCCA87]">{title}</p>
-        <p className="text-white italic">{subtitle}</p>
+        <p className="text-[#1C2331]">{title}</p>
+        <p className="text-slate-400 italic">{subtitle}</p>
       </div>
     </div>
   )
@@ -23,10 +23,10 @@ function AwardCard({ award: { imgUrl, title, subtitle , key} }: any) {
 
 function Awards() {
   return (
-    <section className='relative w-[100vw] h-fit px-4 md:px-24 p-8 flex flex-col  items-center justify-center bg-[#1C2331]' id='awards'>
+    <section className='relative w-[100vw] h-fit px-4 md:px-24 p-8 flex flex-col  items-center justify-center bg-white' id='awards'>
       <div>
         <SubHeading title="Awards & Recognition" />
-        <h1 className='m-2 text-[50px] md:text-[70px] text-[#FFA500] font-semibold'>
+        <h1 className='m-2 text-[50px] md:text-[70px] text-[#1C2331] font-semibold'>
           Our Laurels
         </h1>
         <div className="flex flex-row flex-wrap">

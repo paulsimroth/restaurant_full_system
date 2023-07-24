@@ -2,7 +2,7 @@
 
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.SITE_URL || 'https://example.com',
+  siteUrl: process.env.NETX_PUBLIC_SITE_URL || 'https://example.com',
   generateRobotsTxt: true, // (optional)
   outDir: "./out",
 
@@ -14,7 +14,7 @@ module.exports = {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/imprint', '/data', 'login', 'dashboard']
+        disallow: ['/imprint', '/data', '/login', '/dashboard/:path*']
       },
     ],
   }
