@@ -3,10 +3,10 @@ import SubHeading from "~/components/SubHeading";
 
 function Hero() {
   return (
-    <section className='w-[100vw] min-h-[95vh] flex flex-col md:flex-row items-center justify-center px-12 md:px-24 py-16 md:py-6 bg-[#1C2331]' id='home'>
-      <div className="text-white">
+    <section className='w-[100vw] min-h-[95vh] flex flex-col md:flex-row items-center justify-center px-12 md:px-24 py-16 md:py-6 bg-white' id='home'>
+      <div className="text-[#1C2331] w-[70vw] m-12">
         <SubHeading title="Chase the new flavor"/>
-        <h1 className="text-[#FFA500] tracking-wider uppercase leading-[90px] md:leading-[117px] text-[70px] md:text-[90px]">
+        <h1 className="text-[#1C2331] tracking-wider uppercase leading-[90px] md:leading-[117px] text-[70px] md:text-[90px]">
           The Key to fine dining
         </h1>
         <p className="my-8 text-justify">

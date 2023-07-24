@@ -13,9 +13,7 @@ function Testimonials() {
             index={index}
           />
         ))
-
         }
-
       </div>
     </section>
   )

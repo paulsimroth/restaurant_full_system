@@ -27,11 +27,11 @@ function Contact() {
                         <p className='text-[25px] text-[#1C2331]'>
                             You can find us at:
                         </p>
-                        <div className='p-1'>
+                        <address className='p-1'>
                             <p>{comname}</p>
                             <p>{address}</p>
                             <p>{city}</p>
-                        </div>
+                        </address>
                     </div>
 
                     <br />
@@ -45,8 +45,8 @@ function Contact() {
                             <li>Di-Fr: 11:00-21:00</li>
                             <li>Sa-So/Feiertag: 10:00-23:00</li>
                         </ul>
-                        <p className='p-1'><strong>EMAIL:</strong>{email}</p>
-                        <p className='p-1'><strong>TEL.:</strong>{phone}</p>
+                        <address className='p-1'><strong>EMAIL:</strong><a href={`mailto:${email}`}>{email}</a></address>
+                        <address className='p-1'><strong>TEL.:</strong><a href={`tel:${phone}`}>{phone}</a></address>
                     </div>
 
                 </div>

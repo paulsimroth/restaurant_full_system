@@ -32,12 +32,12 @@ function Map() {
             <GoogleMap zoom={15} center={center} mapContainerClassName="w-full h-[60vh] md:h-[50vh]">
                 <MarkerF position={location} >
                     <InfoWindowF position={location} >
-                        <div className='p-1 text-[#1C2331]'>
+                        <address className='p-1 text-[#1C2331]'>
                             <h3 className='font-bold'>{comname}</h3>
                             <p>{address}</p>
                             <p>{city}</p>
                             <p>{country}</p>
-                        </div>
+                        </address>
                     </InfoWindowF>
                 </MarkerF>
             </GoogleMap>
