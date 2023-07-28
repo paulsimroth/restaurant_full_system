@@ -25,6 +25,7 @@ export default function Home() {
         <meta name='copyright' content={process.env.NEXT_PUBLIC_COMNAME} />
         <meta name="keywords" content="10 suchbegriffe einfügen" />
         <meta name="robots" content="index,follow" />
+        <meta name="format-detection" content="telephone=yes, address=yes, email=yes" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="preconnect" href="https://stijndv.com" />
