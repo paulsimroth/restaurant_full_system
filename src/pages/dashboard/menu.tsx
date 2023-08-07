@@ -8,6 +8,8 @@ import { trpc } from "~/utils/trpc";
 import { Categories } from "~/utils/types";
 import toast, { Toaster } from 'react-hot-toast';
 import AdminNav from "~/components/AdminNav";
+import Spinner from "~/components/Spinner";
+import { Suspense } from 'react';
 
 const DynamicSelect = dynamic(() => import("react-select"), { ssr: false });
 
@@ -191,22 +193,24 @@ function menu() {
                         <p className='text-lg font-bold m-2'>Your menu items:</p>
                         <div className='mt-6 mb-12 grid grid-cols-4 gap-8'>
                             {menuItems?.map((menuItem: any) => (
-                                <div key={menuItem.id} className="m-2 p-2 border border-black rounded-md flex flex-col items-start justify-between">
-                                    <div className="flex flex-row items-center justify-between w-full">
-                                        <p className="font-bold">{menuItem.name}</p>
-                                        <p>€{menuItem.price}</p>
-                                    </div>
-                                    <p className="italic">{menuItem.categories.map((c: any) => capitalize(c)).join(', ')}</p>
-                                    <p>{menuItem.description}</p>
-                                    {/*                                     <div className='relative h-40 w-40'>
+                                <Suspense fallback={<Spinner />}>
+                                    <div key={menuItem.id} className="m-2 p-2 border border-black rounded-md flex flex-col items-start justify-between">
+                                        <div className="flex flex-row items-center justify-between w-full">
+                                            <p className="font-bold">{menuItem.name}</p>
+                                            <p>€{menuItem.price}</p>
+                                        </div>
+                                        <p className="italic">{menuItem.categories.map((c: any) => capitalize(c)).join(', ')}</p>
+                                        <p>{menuItem.description}</p>
+                                        {/*                                     <div className='relative h-40 w-40'>
                                         <Image priority fill alt='' src={menuItem.url} />
                                     </div> */}
-                                    <button
-                                        onClick={() => handleDelete(menuItem.id)}
-                                        className='w-[53px] text-xs text-red-500 border-red-500 border-2 p-1 rounded-md hover:scale-110 duration-300 hover:text-white hover:bg-red-500'>
-                                        Delete
-                                    </button>
-                                </div>
+                                        <button
+                                            onClick={() => handleDelete(menuItem.id)}
+                                            className='w-[53px] text-xs text-red-500 border-red-500 border-2 p-1 rounded-md hover:scale-110 duration-300 hover:text-white hover:bg-red-500'>
+                                            Delete
+                                        </button>
+                                    </div>
+                                </Suspense>
                             ))}
                         </div>
                     </div>

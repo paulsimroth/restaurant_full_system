@@ -1,12 +1,8 @@
 import Head from "next/head";
 import Link from "next/link";
 import AdminNav from "~/components/AdminNav";
-import { trpc } from "~/utils/trpc";
 
 function page() {
-
-  //@ts-ignore
-  const { mutate } = trpc.admin.sensitive.useMutation();
 
   return (
     <>
@@ -15,7 +11,6 @@ function page() {
         <meta name="description" content="Admin Dashboard" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <main>
         <AdminNav />
         <div className="flex h-[65vh] flex-col items-center justify-around p-24 text-[#2E3A59]">

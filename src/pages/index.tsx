@@ -31,7 +31,6 @@ export default function Home() {
         <link rel="preconnect" href="https://stijndv.com" />
         <link rel="stylesheet" href="https://stijndv.com/fonts/Eudoxus-Sans.css" />
       </Head>
-
       <main className='w-full overflow-hidden'>
         <Navbar />
         <div className="flex min-h-screen flex-col items-center justify-center pt-24 px-24 mx-auto">

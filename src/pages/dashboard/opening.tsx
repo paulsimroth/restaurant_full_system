@@ -12,6 +12,7 @@ import TimeSelector from "~/components/TimeSelector";
 import Calendar from "react-calendar";
 import { now } from "~/constants";
 import AdminNav from "~/components/AdminNav";
+import { Suspense } from 'react';
 
 interface openingProps {
     days: Day[]

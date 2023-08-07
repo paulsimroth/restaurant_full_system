@@ -22,14 +22,12 @@ function Navbar() {
           className='block rounded-md object-contain'
         />
       </Link>
-
       <ul className="hidden m-2 sm:flex flex-row justify-around items-center md:w-2/5 h-fit gap-4">
         <li className="md:text-[20px] hover:scale-110 duration-300"><a href="/#home">Home</a></li>
         <li className="md:text-[20px] hover:scale-110 duration-300"><a href="/#about">About</a></li>
         <li className="md:text-[20px] hover:scale-110 duration-300"><a href="/menu">Menu</a></li>
         <li className="md:text-[20px] hover:scale-110 duration-300"><a href="/#awards">Awards</a></li>
       </ul>
-
       <div className="hidden sm:flex flex-row justify-around items-center">
         <a href="#contact">
           <button className="m-1 flex items-center h-fit border-2 border-[#FFA500] py-1 px-4 gap-[12px] text-[20px] font-bold hover:scale-110 hover:bg-[#7EC699] hover:text-[#2E3A59] duration-300">

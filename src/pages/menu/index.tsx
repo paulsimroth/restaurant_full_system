@@ -9,6 +9,7 @@ import { now } from "~/constants";
 import Footer from "~/sections/Footer";
 import Navbar from "~/sections/Navbar";
 import { trpc } from "~/utils/trpc";
+import { Suspense } from 'react';
 
 interface menuProps { }
 
@@ -24,18 +25,18 @@ function page({ }: menuProps) {
         },
     });
 
-/*     useEffect(() => {
-        const selectedTime = localStorage.getItem('selectedTime');
-        //reroutes to home if not time selected
-        if (!selectedTime) router.push('/')
-        else {
-            const date = parseISO(selectedTime)
-            if (date < now) router.push('/')
-
-            //Date is valid
-            setSelectedTime(selectedTime);
-        }
-    }, []); */
+    /*     useEffect(() => {
+            const selectedTime = localStorage.getItem('selectedTime');
+            //reroutes to home if not time selected
+            if (!selectedTime) router.push('/')
+            else {
+                const date = parseISO(selectedTime)
+                if (date < now) router.push('/')
+    
+                //Date is valid
+                setSelectedTime(selectedTime);
+            }
+        }, []); */
 
     return (
         <>
@@ -52,7 +53,9 @@ function page({ }: menuProps) {
                         {isFetchedAfterMount && (
                             <>
                                 {/* <button className="border p-2 border-[#2E3A59] hover:scale-110 duration-300 font-bold">Back to Time Selection</button> */}
-                                <Menu/>
+                                <Suspense fallback={<Spinner />}>
+                                    <Menu />
+                                </Suspense>
                             </>
                         )}
                     </div>

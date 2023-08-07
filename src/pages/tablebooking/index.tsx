@@ -9,7 +9,6 @@ import BookingForm from "~/components/BookingForm";
 import Spinner from "~/components/Spinner";
 import { now } from "~/constants";
 import Footer from "~/sections/Footer";
-import Navbar from "~/sections/Navbar";
 import { trpc } from "~/utils/trpc";
 
 interface menuProps { }

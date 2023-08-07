@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Calendar from "~/components/Calendar";
 import Footer from "~/sections/Footer";
-import Navbar from "~/sections/Navbar";
 import { prisma } from "~/server/db";
 import { formatISO } from "date-fns";
 import { Day } from "@prisma/client";
