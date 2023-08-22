@@ -156,7 +156,6 @@ function opening({ days }: openingProps) {
                     )}
                 </div>
             </div>
-
         </>
     )
 };
